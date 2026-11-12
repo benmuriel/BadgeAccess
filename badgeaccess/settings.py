@@ -37,6 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'home.apps.HomeConfig',
+    'visit.apps.VisitConfig'
 ]
 
 MIDDLEWARE = [
@@ -73,9 +75,17 @@ WSGI_APPLICATION = 'badgeaccess.wsgi.application'
 # https://docs.djangoproject.com/en/6.1/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+    "default": {
+        "ENGINE": "mssql",
+        "NAME": "BadgeAccess",
+        "USER": "sa",
+        "PASSWORD": "Tresori@n",
+        "HOST": "localhost",           # <--- Make sure this is added!
+        "PORT": "1433",
+        "OPTIONS": {
+            "driver": "ODBC Driver 18 for SQL Server",
+            "extra_params": "TrustServerCertificate=yes;",
+        },
     }
 }
 
@@ -104,7 +114,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Africa/Lubumbashi'
 
 USE_I18N = True
 
@@ -116,7 +126,9 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
-
+STATICFILES_DIRS = [
+    BASE_DIR / 'static',
+]
 # Email
 # https://docs.djangoproject.com/en/6.1/topics/email/#topic-email-configuration
 

@@ -1,0 +1,24 @@
+{% extends 'base_template.html' %}
+{% load static %}
+{% block content %}
+  <div class="row">
+    <div class="col-3">
+      <a class="theme-primary btn-solid btn-styled w-100">Nouveau</a>
+    </div>
+    <div class="col">
+      <input type="text" class="form-control" placeholder="Rechercher un visiteur" />
+    </div>
+    <div class="col-2">
+      <a class="btn-solid theme-primary">Rechercher</a>
+    </div>
+  </div>
+  <div>
+    <div class="row bg-subtle-secondary">
+      <div class="col-1">#</div>
+      <div class="col-3">Nom</div>
+      <div class="col-3">Provenance</div>
+      <div class="col-3">Déstination</div>
+      <div class="col-1"></div>
+    </div>
+  </div>
+{% endblock %}

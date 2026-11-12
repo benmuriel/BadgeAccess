@@ -1,0 +1,44 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    {% block title %}
+      <title>Badge Access</title>
+    {% endblock %}
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="{% static '/libs/bootstrap/css/bootstrap.min.css' %}" />
+    <!-- Add additional CSS in static file -->
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
+  </head>
+  <body>
+    <div class="container-fluid">
+      <nav class="navbar sm:navbar-expand bg-1 fg-2">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="#">Badge Access</a>
+          <button class="btn-icon navbar-toggler" type="button" data-bs-toggle="drawer" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon" aria-hidden="true"></span></button>
+          <dialog class="drawer drawer-end" tabindex="-1" id="navbarNavAltMarkup" aria-labelledby="navbarNavAltMarkupLabel">
+            <div class="drawer-header">
+              <h5 class="drawer-title" id="navbarNavAltMarkupLabel">Menu</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="drawer" aria-label="Close"></button>
+            </div>
+            <div class="drawer-body">
+              <div class="nav nav-pills navbar-nav">
+                <a id="home" class="nav-link" aria-current="page" href="{% url 'index' %}">Accuiel</a>
+                <a id="home_visit" class="nav-link" href="{% url 'visit_home' %}">Visites &amp; Audiances</a>
+                <a id="home_event" class="nav-link disabled" aria-disabled="true">Evenements</a>
+                <a id="home_report" class="nav-link disabled" aria-disabled="true">Rapports</a>
+              </div>
+            </div>
+          </dialog>
+        </div>
+      </nav>
+      <div class="pt-3 ps-2 pe-2">
+        {% block content %}
+
+        {% endblock %}
+      </div>
+    </div>
+    <script src="{% static '/libs/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+  </body>
+</html>
