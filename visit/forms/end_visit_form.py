@@ -1,7 +1,7 @@
 from django import forms
 from django.utils import timezone
 
-from ..models import Visitor
+from home.models import Visitor
 
 
 class EndVisitForm(forms.ModelForm):

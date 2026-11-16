@@ -1,6 +1,6 @@
 from django import forms
-
-from ..models import Person, TypePiece
+# visit/forms/person_form.py
+from home.models import Person, TypePiece
 
 
 class PersonForm(forms.ModelForm):

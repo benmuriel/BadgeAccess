@@ -3,7 +3,7 @@ from datetime import timedelta  # remove this import if you no longer need it
 from django import forms
 from django.utils import timezone
 
-from ..models import Badge, Visitor
+from home.models import Badge, Visitor
 
 
 class VisitorForm(forms.ModelForm):

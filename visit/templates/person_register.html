@@ -11,9 +11,15 @@
             <div class="alert {% if form.errors %}
                 
                 
+                
+                
+                
       
                 
                 theme-danger 
+
+
+
 
 
 
@@ -21,14 +27,26 @@
                 {% if person %}
                   
                   
+                  
+                  
+                  
                 theme-success 
+
+
+
 
 
 
                 {% else %}
                   
                   
+                  
+                  
+                  
                   theme-info 
+
+
+
 
 
                 {% endif %}
@@ -54,7 +72,7 @@
                   <div class="form-text">{{ form.PhoneNumber.help_text }}</div>
                 {% endif %}
                 {% for error in form.PhoneNumber.errors %}
-                  <div class="text-danger small">{{ error }}</div>
+                  <div class="fg-dangersmall">{{ error }}</div>
                 {% endfor %}
               </div>
             </div>
@@ -68,7 +86,7 @@
                   <div class="form-text">{{ form.TypePiece.help_text }}</div>
                 {% endif %}
                 {% for error in form.TypePiece.errors %}
-                  <div class="text-danger small">{{ error }}</div>
+                  <div class="fg-dangersmall">{{ error }}</div>
                 {% endfor %}
               </div>
             </div>
@@ -82,7 +100,7 @@
                   <div class="form-text">{{ form.NumPiece.help_text }}</div>
                 {% endif %}
                 {% for error in form.NumPiece.errors %}
-                  <div class="text-danger small">{{ error }}</div>
+                  <div class="fg-dangersmall">{{ error }}</div>
                 {% endfor %}
               </div>
             </div>
@@ -98,7 +116,7 @@
                   <div class="form-text">{{ form.FirstName.help_text }}</div>
                 {% endif %}
                 {% for error in form.FirstName.errors %}
-                  <div class="text-danger small">{{ error }}</div>
+                  <div class="fg-dangersmall">{{ error }}</div>
                 {% endfor %}
               </div>
             </div>
@@ -112,7 +130,7 @@
                   <div class="form-text">{{ form.LastName.help_text }}</div>
                 {% endif %}
                 {% for error in form.LastName.errors %}
-                  <div class="text-danger small">{{ error }}</div>
+                  <div class="fg-dangersmall">{{ error }}</div>
                 {% endfor %}
               </div>
             </div>
@@ -126,7 +144,7 @@
                   <div class="form-text">{{ form.ForeName.help_text }}</div>
                 {% endif %}
                 {% for error in form.ForeName.errors %}
-                  <div class="text-danger small">{{ error }}</div>
+                  <div class="fg-dangersmall">{{ error }}</div>
                 {% endfor %}
               </div>
             </div>
@@ -140,7 +158,7 @@
                   <div class="form-text">{{ form.Gender.help_text }}</div>
                 {% endif %}
                 {% for error in form.Gender.errors %}
-                  <div class="text-danger small">{{ error }}</div>
+                  <div class="fg-danger small">{{ error }}</div>
                 {% endfor %}
               </div>
             </div>
@@ -156,7 +174,7 @@
                   <div class="form-text">{{ form.Provenance.help_text }}</div>
                 {% endif %}
                 {% for error in form.Provenance.errors %}
-                  <div class="text-danger small">{{ error }}</div>
+                  <div class="fg-danger small">{{ error }}</div>
                 {% endfor %}
               </div>
             </div>
@@ -170,7 +188,7 @@
                   <div class="form-text">{{ form.Role.help_text }}</div>
                 {% endif %}
                 {% for error in form.Role.errors %}
-                  <div class="text-danger small">{{ error }}</div>
+                  <div class="fg-danger small">{{ error }}</div>
                 {% endfor %}
               </div>
             </div>
@@ -186,4 +204,7 @@
       </div>
     </div>
   </div>
+{% endblock %}
+{% block steps %}
+  {% include 'visit_steps.html' with step=2 %}
 {% endblock %}

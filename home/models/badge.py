@@ -17,6 +17,15 @@ class Badge(models.Model):
     Person = models.ForeignKey(
         Person, on_delete=models.CASCADE, db_column="PersonId", verbose_name="Personne"
     )
+    CurrentVisitor = models.ForeignKey(
+        "Visitor",
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="+",
+        db_column="CurrentVisitorId",
+        verbose_name="Visiteur actuel ou dernier visiteur",
+    )
 
     IssueDate = models.DateTimeField(
         auto_now_add=True, verbose_name="Date de création")

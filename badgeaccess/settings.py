@@ -89,6 +89,20 @@ DATABASES = {
     }
 }
 
+""" DATABASES = {
+    "default": {
+        "ENGINE": "mssql",
+        "NAME": "db_aa0f62_badgeaccess",
+        "USER": "db_aa0f62_badgeaccess_admin",
+        "PASSWORD": "K@t@ng@01",
+        "HOST": "sql6033.site4now.net",           # <--- Make sure this is added!
+        "PORT": "1433",
+        "OPTIONS": {
+            "driver": "ODBC Driver 18 for SQL Server",
+            "extra_params": "TrustServerCertificate=yes;",
+        },
+    }
+} """
 
 # Password validation
 # https://docs.djangoproject.com/en/6.1/ref/settings/#auth-password-validators

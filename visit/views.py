@@ -4,10 +4,11 @@ from .forms import PersonForm, VisitorForm
 from django.shortcuts import get_object_or_404, redirect, render
 from django.shortcuts import render
 from django.utils import timezone
+# visit/views.py
+from home.models import Badge, Person, TypePiece, Visitor
 
-from .models import Visitor
+from .forms import EndVisitForm, PersonForm, VisitorForm
 from .forms import PersonForm
-from .models import Person, TypePiece
 
 from django.db.models import Q
 
@@ -15,8 +16,6 @@ from django.db.models import Q
 from django.db.models import Q
 from django.shortcuts import render
 from django.utils import timezone
-
-from .models import Visitor
 
 
 def home_page(request):
@@ -146,6 +145,10 @@ def visit_registration(request, person_id):
             visitor = form.save(commit=False)
             visitor.Person = person  # la personne vient de l'URL, pas du formulaire
             visitor.save()
+            badge = visitor.Badge
+            badge.CurrentVisitor = visitor
+            badge.save(update_fields=["CurrentVisitor"])
+
             messages.success(
                 request, "La visite a été enregistrée avec succès.")
             return redirect("visit_detail", visit_id=visitor.pk)

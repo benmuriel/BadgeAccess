@@ -5,18 +5,8 @@
     <div class="col-10">
       <div class="card mt-5">
         <div class="card-body">
-          <h5 class="card-title">Rechercher un visiteur</h5> <hr />
+          <h5 class="card-title">Identification du visiteur</h5> <hr />
           <form method="get" action="{% url 'visit_find_person' %}">
-            <div class="mb-3 row">
-              <div class="col-4">
-                <label class="mb-1">Numero de téléphone</label>
-              </div>
-              <div class="col">
-                <input type="text" autocomplete="off" name="numtel" class="form-control" placeholder="" value="{{ numtel }}" />
-                <div class="text-muted small">Numero de téléphone sans prefixe ni espace</div>
-                <div class="text-muted small">Ex: 0991122123</div>
-              </div>
-            </div>
             <div class="mb-3 row">
               <div class="col-4">
                 <label class="mb-1">Type de piece d'identité</label>
@@ -38,6 +28,16 @@
                 <input type="text" autocomplete="off" name="numpiece" class="form-control" placeholder="" value="{{ numpiece }}" />
               </div>
             </div>
+            <div class="mb-3 row">
+              <div class="col-4">
+                <label class="mb-1">Numero de téléphone</label>
+              </div>
+              <div class="col">
+                <input type="text" autocomplete="off" name="numtel" class="form-control" placeholder="" value="{{ numtel }}" />
+                <div class="text-muted small">Numero de téléphone sans prefixe ni espace</div>
+                <div class="text-muted small">Ex: 0991122123</div>
+              </div>
+            </div>
             <div class="col offset-4">
               <button type="submit" class="btn btn-solid theme-primary">Identifier</button>
               <a class="btn float-end" href="{% url 'visit_home' %}">Annuler</a>
@@ -47,6 +47,9 @@
       </div>
     </div>
   </div>
+{% endblock %}
+{% block steps %}
+  {% include 'visit_steps.html' with step=1 %}
 {% endblock %}
 {% block scripts %}
   <script type="text/javascript">

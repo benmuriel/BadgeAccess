@@ -7,6 +7,10 @@
     <p class="m-1">
       La plate-forme officielle du Gouvernement Provinciale du Haut-Katanga <br /> pour la gestion des visites et des évènements.
     </p>
+    <div>
+      <a href="{% url 'visit_find_person' %}" class="btn btn-solid theme-primary m-2">Enregistrer une visite</a>
+      <a href="{% url 'badge_check' %}" class="btn btn-solid theme-secondary m-2">Vérifier un badge</a>
+    </div>
   </div>
 {% endblock %}
 {% block scripts %}

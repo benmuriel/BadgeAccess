@@ -1,0 +1,81 @@
+{% extends 'base_template.html' %}
+{% load static %}
+{% block content %}
+  <div class="row justify-content-center">
+    <div class="col-10">
+      <div class="card mt-5">
+        <div class="card-body">
+          <h5 class="card-title">Vérification d'un badge</h5>
+          <hr />
+
+          <form method="get" action="{% url 'badge_check' %}" class="row g-2 mb-4">
+            <div class="col">
+              <input type="text" name="badge" class="form-control" placeholder="Numéro de badge" value="{{ number }}" autofocus required />
+            </div>
+            <div class="col-auto">
+              <button type="submit" class="btn btn-solid theme-primary">Vérifier</button>
+            </div>
+          </form>
+
+          {% if searched %}
+            {% if badge is None %}
+              <div class="alert alert-danger">Aucun badge ne porte le numéro « {{ number }} ».</div>
+            {% else %}
+              <h4>
+                Badge {{ badge.BadgeNumber }}
+                {% if in_use %}
+                  <span class="badge theme-warning float-end">Utilisé</span>
+                {% else %}
+                  <span class="badge theme-success float-end">Disponible</span>
+                {% endif %}
+              </h4>
+              <dl class="row">
+                <dt class="col-4">Catégorie</dt>
+                <dd class="col-8">{{ badge.BadgeCategory }} ({{ badge.BadgeCategory.Type }})</dd>
+                {% if badge.person %}
+                  <dt class="col-4">Titulaire du badge</dt>
+                  <dd class="col-8">{{ badge.Person }}</dd>
+                {% endif %}
+              </dl>
+
+              <h4>
+                {% if in_use %}
+                  Visiteur actuel
+                {% else %}
+                  Dernier visiteur
+                {% endif %}
+              </h4>
+              {% if visitor is None %}
+                <p class="text-muted">Ce badge n'a encore jamais été utilisé pour une visite.</p>
+              {% else %}
+                <dl class="row">
+                  <dt class="col-4">Visiteur</dt>
+                  <dd class="col-8">{{ visitor.Person }}</dd>
+                  <dt class="col-4">Téléphone</dt>
+                  <dd class="col-8">{{ visitor.Person.PhoneNumber }}</dd>
+                  <dt class="col-4">Personne visitée</dt>
+                  <dd class="col-8">{{ visitor.VisitedPerson }}</dd>
+                  <dt class="col-4">Début</dt>
+                  <dd class="col-8">{{ visitor.StartDate|date:'d/m/Y H:i' }}</dd>
+                  <dt class="col-4">Fin</dt>
+                  <dd class="col-8">{{ visitor.EndDate|date:'d/m/Y H:i'|default:'—' }}</dd>
+                  <dt class="col-4">État de la visite</dt>
+                  <dd class="col-8">{{ visitor.status }}</dd>
+                </dl>
+              {% endif %}
+            {% endif %}
+          {% endif %}
+
+          <div class="mt-4">
+            <a class="btn" href="{% url 'index' %}">Retour</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+{% block scripts %}
+  <script type="text/javascript">
+    $('#home').addClass('active fg-white')
+  </script>
+{% endblock %}

@@ -1,55 +1,40 @@
 {% extends 'base_template.html' %}
 {% load static %}
+
 {% block content %}
   <div class="pt-3 ps-2 pe-2 row">
     <div class="col">
+      {% if messages %}
+        <div class="row justify-content-center mt-4">
+          <div class="col-10">
+            {% for message in messages %}
+              <div class="alert theme-{% if message.tags == 'error' %}
+                  
+                   
+                    
+                      danger 
+
+
+
+                {% else %}
+                  {{ message.tags }}
+                {% endif %} alert-dismissible fade show"
+                role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fermer"></button>
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+      {% endif %}
       {% block main_content %}
 
       {% endblock %}
     </div>
 
-    <div class="col-4 p-2">
-      <div class="container bg-white p-4 rounded shadow-sm" style="max-width: 500px;">
-        <h4 class="mb-4 text-center">Progression de l'identification</h4>
+    {% block steps %}
 
-        <div class="stepper-vertical">
-          <!-- Étape 1 : Complétée (Bleu) -->
-          <div class="step-item">
-            <div id="step1" class="step-bubble completed">1</div>
-            <div class="step-content">
-              <h6 class="mb-0 fw-bold text-dark">Pièce d'identité</h6>
-              <small class="text-muted">Presentée</small>
-            </div>
-          </div>
-
-          <!-- Étape 2 : Complétée (Bleu) -->
-          <div class="step-item">
-            <div id="step2" class="step-bubble completed">2</div>
-            <div class="step-content">
-              <h6 class="mb-0 fw-bold text-dark">Informations personnelles</h6>
-              <small class="text-muted">Enregistré</small>
-            </div>
-          </div>
-
-          <!-- Étape 3 : Actuelle / En cours (Bleu) -->
-          <div class="step-item">
-            <div id="step3" class="step-bubble completed">3</div>
-            <div class="step-content">
-              <h6 class="mb-0 fw-bold text-primary">Enregistrement de la visite</h6>
-              <small class="text-muted">Étape en cours...</small>
-            </div>
-          </div>
-
-          <div class="step-item">
-            <div id="step3" class="step-bubble pending">4</div>
-            <div class="step-content">
-              <h6 class="mb-0 fw-bold text-primary">Validation</h6>
-              <small class="text-muted">En attente</small>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+    {% endblock %}
   </div>
   <style>
     /* Styles personnalisés pour la timeline verticale en bulles */
