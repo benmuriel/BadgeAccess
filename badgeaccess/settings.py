@@ -74,7 +74,7 @@ WSGI_APPLICATION = 'badgeaccess.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/6.1/ref/settings/#databases
 
-DATABASES = {
+""" DATABASES = {
     "default": {
         "ENGINE": "mssql",
         "NAME": "BadgeAccess",
@@ -87,9 +87,9 @@ DATABASES = {
             "extra_params": "TrustServerCertificate=yes;",
         },
     }
-}
+} """
 
-""" DATABASES = {
+DATABASES = {
     "default": {
         "ENGINE": "mssql",
         "NAME": "db_aa0f62_badgeaccess",
@@ -102,7 +102,7 @@ DATABASES = {
             "extra_params": "TrustServerCertificate=yes;",
         },
     }
-} """
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/6.1/ref/settings/#auth-password-validators
