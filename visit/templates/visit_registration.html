@@ -1,0 +1,103 @@
+{% extends 'visit_template.html' %}
+{% load static %}
+{% block main_content %}
+  <div class="row justify-content-center">
+    <div class="col-10">
+      <div class="card mt-5">
+        <div class="card-body">
+          <h5 class="card-title">Enregistrement de la visite</h5> <hr />
+
+          <div class="alert alert-secondary">
+            <strong>Visiteur :</strong> {{ person }}<br />
+            <strong>Téléphone :</strong> {{ person.PhoneNumber }}<br />
+            <strong>Pièce :</strong> {{ person.TypePiece }} n° {{ person.NumPiece }}
+          </div>
+
+          <form method="post" action="{% url 'visit_registration' person.pk %}" novalidate>
+            {% csrf_token %}
+
+            {% if form.non_field_errors %}
+              <div class="alert alert-danger">{{ form.non_field_errors }}</div>
+            {% endif %}
+
+            <h4>Badge</h4>
+            <div class="mb-3 row">
+              <div class="col-4">
+                <label class="mb-1 p-1" for="{{ form.BadgeNumber.id_for_label }}">Numéro de badge</label>
+              </div>
+              <div class="col">
+                {{ form.BadgeNumber }}
+                {% if form.BadgeNumber.help_text %}
+                  <div class="form-text">{{ form.BadgeNumber.help_text }}</div>
+                {% endif %}
+                {% for error in form.BadgeNumber.errors %}
+                  <div class="fg-danger small">{{ error }}</div>
+                {% endfor %}
+              </div>
+            </div>
+
+            <h4>Période</h4>
+            <div class="mb-3 row">
+              <div class="col-4">
+                <label class="mb-1 p-1" for="{{ form.StartDate.id_for_label }}">Date de début</label>
+              </div>
+              <div class="col">
+                {{ form.StartDate }}
+                {% for error in form.StartDate.errors %}
+                  <div class="text-danger small">{{ error }}</div>
+                {% endfor %}
+              </div>
+            </div>
+            <h4>Visite</h4>
+            <div class="mb-3 row">
+              <div class="col-4">
+                <label class="mb-1 p-1" for="{{ form.Purpose.id_for_label }}">Objet de la visite</label>
+              </div>
+              <div class="col">
+                {{ form.Purpose }}
+                {% if form.Purpose.help_text %}
+                  <div class="form-text">{{ form.Purpose.help_text }}</div>
+                {% endif %}
+                {% for error in form.Purpose.errors %}
+                  <div class="fg-danger small">{{ error }}</div>
+                {% endfor %}
+              </div>
+            </div>
+            <div class="mb-3 row">
+              <div class="col-4">
+                <label class="mb-1 p-1" for="{{ form.VisitedPerson.id_for_label }}">Personne visitée</label>
+              </div>
+              <div class="col">
+                {{ form.VisitedPerson }}
+                {% if form.VisitedPerson.help_text %}
+                  <div class="form-text">{{ form.VisitedPerson.help_text }}</div>
+                {% endif %}
+                {% for error in form.VisitedPerson.errors %}
+                  <div class="fg-danger small">{{ error }}</div>
+                {% endfor %}
+              </div>
+            </div>
+            <div class="mb-3 row">
+              <div class="col-4">
+                <label class="mb-1 p-1" for="{{ form.VisitedPersonRole.id_for_label }}">Fonction de la personne visitée</label>
+              </div>
+              <div class="col">
+                {{ form.VisitedPersonRole }}
+                {% if form.VisitedPersonRole.help_text %}
+                  <div class="form-text">{{ form.VisitedPersonRole.help_text }}</div>
+                {% endif %}
+                {% for error in form.VisitedPersonRole.errors %}
+                  <div class="fg-danger small">{{ error }}</div>
+                {% endfor %}
+              </div>
+            </div>
+
+            <div class="col offset-4">
+              <button type="submit" class="btn btn-solid theme-primary">Enregistrer la visite</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

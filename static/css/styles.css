@@ -1,0 +1,57 @@
+.stepper-vertical {
+    position: relative;
+    padding-left: 2rem;
+}
+
+/* Ligne verticale de liaison */
+.stepper-vertical::before {
+    content: '';
+    position: absolute;
+    left: 1.15rem;
+    top: 0.5rem;
+    bottom: 0.5rem;
+    width: 3px;
+    background-color: #e9ecef;
+    z-index: 0;
+}
+
+.step-item {
+    position: relative;
+    margin-bottom: 2.5rem;
+    z-index: 1;
+}
+
+.step-item:last-child {
+    margin-bottom: 0;
+}
+
+/* Style des bulles (numéros) */
+.step-bubble {
+    position: absolute;
+    left: -2rem;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 0.95rem;
+    border: 2px solid #fff;
+}
+
+/* État : Complété / Actif (Bleu) */
+.step-bubble.completed {
+    background-color: #0d6efd;
+    color: #fff;
+}
+
+/* État : Restant / Inactif (Gris) */
+.step-bubble.pending {
+    background-color: #6c757d;
+    color: #fff;
+}
+
+.step-content {
+    padding-left: 0.5rem;
+}

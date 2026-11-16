@@ -1,0 +1,43 @@
+{% extends 'base_template.html' %}
+{% load static %}
+{% block content %}
+  <div class="row justify-content-center">
+    <div class="col-6">
+      <div class="card mt-5">
+        <div class="card-body">
+          <h5 class="card-title">Terminer la visite n° {{ visit.pk }}</h5>
+          <hr />
+
+          <dl class="row">
+            <dt class="col-4">Visiteur</dt>
+            <dd class="col-8">{{ person }}</dd>
+            <dt class="col-4">Badge</dt>
+            <dd class="col-8">{{ visit.Badge.BadgeNumber }}</dd>
+            <dt class="col-4">Personne visitée</dt>
+            <dd class="col-8">{{ visit.VisitedPerson }}</dd>
+            <dt class="col-4">Début</dt>
+            <dd class="col-8">{{ visit.StartDate|date:'d/m/Y H:i' }}</dd>
+            <dt class="col-4">Fin</dt>
+            <dd class="col-8">Maintenant ({{ now|date:'d/m/Y H:i' }})</dd>
+          </dl>
+
+          {% if form.non_field_errors %}
+            <div class="alert alert-danger">{{ form.non_field_errors }}</div>
+            <a class="btn" href="{% url 'visit_home' %}">Retour</a>
+          {% else %}
+            <form class="text-center" method="post" action="{% url 'visit_end' visit.pk %}">
+              {% csrf_token %}
+              <button type="submit" class="btn btn-solid theme-danger">Confirmer la fin de la visite</button>
+              <a class="btn" href="{% url 'visit_home' %}">Annuler</a>
+            </form>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+{% block scripts %}
+  <script type="text/javascript">
+    $('#home_visit').addClass('active fg-white')
+  </script>
+{% endblock %}

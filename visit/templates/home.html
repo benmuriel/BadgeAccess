@@ -1,24 +1,77 @@
 {% extends 'base_template.html' %}
 {% load static %}
 {% block content %}
-  <div class="row">
-    <div class="col-3">
-      <a class="theme-primary btn-solid btn-styled w-100">Nouveau</a>
+  <form method="get" action="{% url 'visit_home' %}" class="mb-3">
+    <div class="row">
+      <div class="col-2">
+        <a class="theme-primary btn-solid btn-styled w-100" href="{% url 'visit_find_person' %}">Nouvelle visite</a>
+      </div>
+      <div class="col">
+        <input type="text" name="q" class="form-control" placeholder="Rechercher un visiteur" value="{{ q }}" />
+      </div>
+      <div class="col-3">
+    <select name="state" class="form-control">
+      <option value="open" {% if state == 'open' %}selected {% endif %}>En cours</option>
+      <option value="ended" {% if state == 'ended' %}selected{% endif %}>Terminées</option>
+      <option value="all" {% if state == 'all' %}selected{% endif %}>Toutes</option>
+    </select>
+  </div>
+      <div class="col-auto">
+        <button type="submit" class="btn-solid theme-primary">Rechercher</button>
+        {% if q or state != 'open'  %}
+          <a class="btn" href="{% url 'visit_home' %}">Réinitialiser</a>
+        {% endif %}
+      </div>
     </div>
-    <div class="col">
-      <input type="text" class="form-control" placeholder="Rechercher un visiteur" />
-    </div>
-    <div class="col-2">
-      <a class="btn-solid theme-primary">Rechercher</a>
+  </form>
+
+  <div class="card mt-5">
+    <div class="card-body">
+      <h5 class="card-title">Visites</h5>
+      <hr />
+
+      <div class="table-responsive">
+        <table class="table table-striped align-middle">
+          <thead>
+            <tr>
+              <th>Badge</th>
+              <th>Visiteur</th>
+              <th>Motif</th>
+              <th>Personne visitée</th>
+              <th>Début</th>
+              <th>Fin</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for visit in visits %}
+              <tr>
+                <td>{{ visit.Badge.BadgeNumber }}</td>
+                <td>{{ visit.Purpose }}</td>
+                <td>{{ visit.Person }}</td>
+                <td>{{ visit.VisitedPerson }}</td>
+                <td>{{ visit.StartDate|date:'d/m/Y H:i' }}</td>
+                <td>{{ visit.EndDate|date:'d/m/Y H:i'|default:'—' }}</td>
+                <td>
+                  <a class="btn btn-outline theme-primary btn-sm" href="{% url 'visit_detail' visit.pk %}">Détails</a>
+                  {% if not visit.is_ended and visit.StartDate <= now %}
+                    <a class="btn btn-outline theme-danger btn-sm" href="{% url 'visit_end' visit.pk %}">Terminer</a>
+                  {% endif %}
+                </td>
+              </tr>
+            {% empty %}
+              <tr>
+                <td colspan="7" class="text-center fg-danger">Aucune visite en cours.</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
-  <div>
-    <div class="row bg-subtle-secondary">
-      <div class="col-1">#</div>
-      <div class="col-3">Nom</div>
-      <div class="col-3">Provenance</div>
-      <div class="col-3">Déstination</div>
-      <div class="col-1"></div>
-    </div>
-  </div>
+{% endblock %}
+{% block scripts %}
+  <script type="text/javascript">
+    $('#home_visit').addClass('active fg-white')
+  </script>
 {% endblock %}

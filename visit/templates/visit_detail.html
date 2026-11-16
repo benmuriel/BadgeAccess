@@ -1,0 +1,90 @@
+{% extends 'base_template.html' %}
+{% load static %}
+{% block content %}
+  <div class="row justify-content-center">
+    <div class="col-7">
+      <div class="card mt-5">
+        <div class="card-body">
+          <h5 class="card-title">
+            Détails de la visite n° {{ visit.pk }}
+            <span class="badge float-end
+              {% if status == 'En cours' %}
+                
+                 
+                
+                theme-success 
+
+
+
+              {% elif status == 'Planifiée' %}
+                
+                 
+                
+                theme-info 
+
+
+              {% else %}
+                
+                
+                 
+                theme-secondary 
+
+
+
+              {% endif %}">
+              {{ status }}
+            </span>
+          </h5>
+          <hr />
+
+          <h4>Visiteur</h4>
+          <dl class="row">
+            <dt class="col-4">Nom complet</dt>
+            <dd class="col-8">{{ person }}</dd>
+            <dt class="col-4">Genre</dt>
+            <dd class="col-8">{{ person.get_Gender_display }}</dd>
+            <dt class="col-4">Téléphone</dt>
+            <dd class="col-8">{{ person.PhoneNumber }}</dd>
+            <dt class="col-4">Pièce d'identité</dt>
+            <dd class="col-8">{{ person.TypePiece }} n° {{ person.NumPiece }}</dd>
+            <dt class="col-4">Provenance</dt>
+            <dd class="col-8">{{ person.Provenance }}</dd>
+            <dt class="col-4">Qualité</dt>
+            <dd class="col-8">{{ person.Role }}</dd>
+          </dl>
+
+          <h4>Badge</h4>
+          <dl class="row">
+            <dt class="col-4">Numéro de badge</dt>
+            <dd class="col-8">{{ visit.Badge.BadgeNumber }}</dd>
+            <dt class="col-4">Catégorie</dt>
+            <dd class="col-8">{{ visit.Badge.BadgeCategory }}</dd>
+          </dl>
+
+          <h4>Visite</h4>
+          <dl class="row">
+            <dt class="col-4">Objet de la visite</dt>
+            <dd class="col-8">{{ visit.Purpose }}</dd>
+            <dt class="col-4">Personne visitée</dt>
+            <dd class="col-8">{{ visit.VisitedPerson }}</dd>
+            <dt class="col-4">Fonction de la personne visitée</dt>
+            <dd class="col-8">{{ visit.VisitedPersonRole }}</dd>
+            <dt class="col-4">Date de début</dt>
+            <dd class="col-8">{{ visit.StartDate|date:'d/m/Y H:i' }}</dd>
+            <dt class="col-4">Date de fin</dt>
+            <dd class="col-8">{{ visit.EndDate|date:'d/m/Y H:i'|default:'—' }}</dd>
+            <dt class="col-4">Enregistrée le</dt>
+            <dd class="col-8">{{ visit.CreatedAtDate|date:'d/m/Y H:i' }}</dd>
+          </dl>
+
+          <a class="btn" href="{% url 'visit_home' %}">Retour</a>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+{% block scripts %}
+  <script type="text/javascript">
+    $('#home_visit').addClass('active fg-white')
+  </script>
+{% endblock %}
