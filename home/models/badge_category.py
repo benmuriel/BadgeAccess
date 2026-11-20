@@ -13,3 +13,4 @@ class BadgeCategory(models.Model):
         db_table = "BadgeCategories"
         verbose_name = "Catégorie de badge"
         verbose_name_plural = "Catégories de badges"
+        managed = False

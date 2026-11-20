@@ -8,14 +8,13 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="stylesheet" href="{% static '/libs/bootstrap/css/bootstrap.min.css' %}" />
-    <!-- Add additional CSS in static file -->
     <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
   </head>
-  <body>
+  <body class="bg-secondary">
     <div class="container-fluid">
       <nav class="navbar sm:navbar-expand bg-1 fg-2">
         <div class="container-fluid">
-          <a class="navbar-brand" href="#">Badge Access</a>
+          <a class="navbar-brand" href="/">Badge Access</a>
           <button class="btn-icon navbar-toggler" type="button" data-bs-toggle="drawer" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon" aria-hidden="true"></span></button>
           <dialog class="drawer drawer-end" tabindex="-1" id="navbarNavAltMarkup" aria-labelledby="navbarNavAltMarkupLabel">
             <div class="drawer-header">
@@ -23,43 +22,37 @@
               <button type="button" class="btn-close" data-bs-dismiss="drawer" aria-label="Close"></button>
             </div>
             <div class="drawer-body">
-              <div class="nav nav-pills navbar-nav">
-                <a id="home" class="nav-link" aria-current="page" href="{% url 'index' %}">Accuiel</a>
-                <a id="home_visit" class="nav-link" href="{% url 'visit_home' %}">Visites &amp; Audiances</a>
-                <a id="home_event" class="nav-link disabled" aria-disabled="true">Evenements</a>
-                <a id="home_report" class="nav-link disabled" aria-disabled="true">Rapports</a>
+              {% if user.is_authenticated %}
+                <div class="nav nav-pills navbar-nav me-auto">
+                  <a id="home" class="nav-link" aria-current="page" href="{% url 'index' %}">Accueil</a>
+                  <a id="home_visit" class="nav-link" href="{% url 'visit_home' %}">Visites &amp; Audiences</a>
+                  <a id="home_event" class="nav-link disabled" aria-disabled="true">Evenements</a>
+                  <a id="home_report" class="nav-link disabled" aria-disabled="true">Rapports</a>
+                </div>
+              {% endif %}
+              <div class="nav nav-pills navbar-nav ms-auto">
+                {% if user.is_authenticated %}
+                  <span class="nav-link disabled bold" aria-disabled="true">{{ user.username }}</span>
+                  <form class="hstack" method="post" action="{% url 'logout' %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn theme-link">Se deconnecter</button>
+                  </form>
+                {% else %}
+                  <a class="m-1" href="{% url 'login' %}">Se connecter</a>
+                {% endif %}
               </div>
             </div>
           </dialog>
         </div>
       </nav>
-      <div class="pt-3 ps-2 pe-2">
-        <div>
-          {% if messages %}
-            <div class="row justify-content-center mt-4">
-              <div class="col-10">
-                {% for message in messages %}
-                  <div class="alert theme-{% if message.tags == 'error' %}
-                      danger
-                    {% else %}
-                      {{ message.tags }}
-                    {% endif %} alert-dismissible fade show"
-                    role="alert">
-                    <p>{{ message }}</p>
-                    <button type="button" class="btn-close ms-auto" data-bs-dismiss="alert" aria-label="Close"></button>
-                  </div>
-                {% endfor %}
-              </div>
-            </div>
-          {% endif %}
-        </div>
+      <div class="pt-1 ps-2 pe-2 bg-secondary">
         {% block content %}
 
         {% endblock %}
       </div>
     </div>
-    <script src="{% static '/libs/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
     <script src="https://code.jquery.com/jquery-4.0.0.min.js" integrity="sha256-OaVG6prZf4v69dPg6PhVattBXkcOWQB62pdZ3ORyrao=" crossorigin="anonymous"></script>
+    <script type="module" src="{% static '/libs/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
     {% block scripts %}
 
     {% endblock %}

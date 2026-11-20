@@ -5,42 +5,26 @@
     <div class="col-10">
       <div class="card mt-5">
         <div class="card-body">
-          <h5 class="card-title">Identification du visiteur</h5> <hr />
+          <h5 class="card-title">Rechercher le visiteur</h5> <hr />
+          <div class="form-text">Saisir le numéro de la pièce d'identité.</div>
+          {% if searched %}
+            {{ message }}
+          {% endif %}
+          {% include '_messages.html' %}
           <form method="get" action="{% url 'visit_find_person' %}">
             <div class="mb-3 row">
               <div class="col-4">
-                <label class="mb-1">Type de piece d'identité</label>
-              </div>
-              <div class="col">
-                <select name="typiece" class="form-control">
-                  <option value="">-- Sélectionner --</option>
-                  {% for item in typepieces %}
-                    <option value="{{ item.Id }}">{{ item.Name }}</option>
-                  {% endfor %}
-                </select>
-              </div>
-            </div>
-            <div class="mb-3 row">
-              <div class="col-4">
-                <label class="mb-1">Numéro de la piece d'identité</label>
+                <label class="mb-1">Numéro de la piece d'identité (*)</label>
               </div>
               <div class="col">
                 <input type="text" autocomplete="off" name="numpiece" class="form-control" placeholder="" value="{{ numpiece }}" />
+                <div class="text-muted small">Carte d'electeur, permis de conduire, passeport, etc.</div>
               </div>
             </div>
-            <div class="mb-3 row">
-              <div class="col-4">
-                <label class="mb-1">Numero de téléphone</label>
-              </div>
-              <div class="col">
-                <input type="text" autocomplete="off" name="numtel" class="form-control" placeholder="" value="{{ numtel }}" />
-                <div class="text-muted small">Numero de téléphone sans prefixe ni espace</div>
-                <div class="text-muted small">Ex: 0991122123</div>
-              </div>
-            </div>
-            <div class="col offset-4">
-              <button type="submit" class="btn btn-solid theme-primary">Identifier</button>
-              <a class="btn float-end" href="{% url 'visit_home' %}">Annuler</a>
+            <hr />
+            <div class="col">
+              <a class="btn" href="{% url 'visit_home' %}">Annuler</a>
+              <button type="submit" class="btn btn-outline theme-primary float-end">Suivant</button>
             </div>
           </form>
         </div>

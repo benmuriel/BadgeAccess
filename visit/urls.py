@@ -9,4 +9,8 @@ urlpatterns = [
          views.visit_registration, name="visit_registration"),
     path("detail/<int:visit_id>/", views.visit_detail, name="visit_detail"),
     path("end/<int:visit_id>/", views.visit_end, name="visit_end"),
+    path("<int:visitor_id>/visited-persons/",
+         views.visited_person, name="visited_person"),
+    path("<int:visitor_id>/validation/",
+         views.visit_validation, name="visit_validation"),
 ]

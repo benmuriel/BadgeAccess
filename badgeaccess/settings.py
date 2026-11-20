@@ -15,6 +15,19 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+CSRF_TRUSTED_ORIGINS = [
+    "https://devdtic-001-site6.etempurl.com/",
+    "http://badgeaccess.haut-katanga.gouv.cd/",
+]
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+USE_X_FORWARDED_HOST = True   # only if the proxy sets X-Forwarded-Host
+
+
+CSRF_COOKIE_SECURE = True       # only if the site is served over HTTPS
+SESSION_COOKIE_SECURE = True
+
+ALLOWED_HOSTS = ["devdtic-001-site6.etempurl.com",
+                 "badgeaccess.haut-katanga.gouv.cd", "127.0.0.1"]
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/6.1/howto/deployment/checklist/
@@ -24,8 +37,6 @@ SECRET_KEY = 'django-insecure-oj@x7l4(g6uuea$ny5-+z9q$*jy#oc9@f7yc-65e4qe9sy$-8k
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-
-ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -98,7 +109,7 @@ DATABASES = {
         "HOST": "sql6033.site4now.net",           # <--- Make sure this is added!
         "PORT": "1433",
         "OPTIONS": {
-            "driver": "ODBC Driver 18 for SQL Server",
+            "driver": "ODBC Driver 17 for SQL Server",
             "extra_params": "TrustServerCertificate=yes;",
         },
     }
@@ -121,7 +132,8 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
-
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'
 
 # Internationalization
 # https://docs.djangoproject.com/en/6.1/topics/i18n/

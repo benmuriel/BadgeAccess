@@ -10,3 +10,4 @@ class TypePiece(models.Model):
 
     class Meta:
         db_table = "TypePieces"
+        managed = False

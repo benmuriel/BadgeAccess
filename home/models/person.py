@@ -11,10 +11,11 @@ class Person(models.Model):
 
     # Équivalent de INT IDENTITY(1,1) sous SQL Server
     Id = models.AutoField(primary_key=True, verbose_name="Identifiant")
-
     FirstName = models.CharField(max_length=255, verbose_name="Nom")
-    LastName = models.CharField(max_length=255, verbose_name="Post-Nom")
-    ForeName = models.CharField(max_length=255, verbose_name="Prénom")
+    LastName = models.CharField(
+        max_length=255, blank=True, default="", verbose_name="Post-Nom")
+    ForeName = models.CharField(
+        max_length=255, blank=True, default="", verbose_name="Prénom")
     Gender = models.CharField(
         max_length=1, choices=GENDER_CHOICES, verbose_name="Sexe"
     )
@@ -28,10 +29,12 @@ class Person(models.Model):
 
     NumPiece = models.CharField(max_length=255, verbose_name="Numéro de pièce")
     PhoneNumber = models.CharField(
-        max_length=255, verbose_name="Numéro de téléphone"
+        max_length=10, blank=True, null=True, verbose_name="Numéro de téléphone"
     )
-    Role = models.CharField(max_length=255, verbose_name="Rôle")
-    Provenance = models.CharField(max_length=255, verbose_name="Provenance")
+    Role = models.CharField(max_length=255, blank=True,
+                            null=True, verbose_name="Rôle")
+    Provenance = models.CharField(
+        max_length=255, blank=True, null=True, verbose_name="Provenance")
 
     def __str__(self):
         return f"{self.FirstName} {self.LastName} {self.ForeName}"
@@ -40,3 +43,4 @@ class Person(models.Model):
         db_table = "Persons"
         verbose_name = "Personne"
         verbose_name_plural = "Personnes"
+        managed = False

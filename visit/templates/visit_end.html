@@ -14,7 +14,9 @@
             <dt class="col-4">Badge</dt>
             <dd class="col-8">{{ visit.Badge.BadgeNumber }}</dd>
             <dt class="col-4">Personne visitée</dt>
-            <dd class="col-8">{{ visit.VisitedPerson }}</dd>
+            <dd class="col-8">
+              {% for vp in visit.visited_persons.all %}{{ vp.PersonFullName }}{% if not forloop.last %}, {% endif %}{% endfor %}
+            </dd>
             <dt class="col-4">Début</dt>
             <dd class="col-8">{{ visit.StartDate|date:'d/m/Y H:i' }}</dd>
             <dt class="col-4">Fin</dt>

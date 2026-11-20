@@ -1,0 +1,28 @@
+<div class="card bg-secondary">
+  <div class="card-body">
+    <div class="alert alert-secondary">
+      <div>
+        <strong>Visiteur :</strong> {{ person }}
+      </div>
+      <div>
+        <strong>Téléphone :</strong> {{ person.PhoneNumber }}
+      </div>
+      <div>
+        <strong>Pièce :</strong> {{ person.TypePiece }} n° {{ person.NumPiece }}
+      </div>
+    </div>
+    {% if visit %}
+      <div class="p-1 w-100 border rounded bg-color-muted">{{ visit.VisitorQuality }} pour {{ visit.Purpose }}</div>
+    {% endif %}
+    <div class="">
+      <strong>Personnes visitées :</strong>
+      {% if visited_persons %}
+        {% for vp in visited_persons %}
+          {{ vp.PersonFullName|default_if_none:'' }} ({{ vp.PersonRole }}, {{ vp.Department }}){% if not forloop.last %} ; {% endif %}
+        {% empty %}
+          aucune
+        {% endfor %}
+      {% endif %}
+    </div>
+  </div>
+</div>

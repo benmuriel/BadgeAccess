@@ -1,0 +1,68 @@
+{% extends 'visit_template.html' %}
+{% load static %}
+{% block main_content %}
+  <div class="row justify-content-center">
+    <div class="col-10">
+      <div class="card mt-5">
+        <div class="card-body">
+          <h5 class="card-title">Validation de la visite</h5> <hr />
+
+          {% include 'visitor_resume.html' with person=person visit=visitor %}
+          {% include '_messages.html' %}
+          {% if message %}
+            <div class="alert theme-{{ message_class|default:'info' }}">{{ message }}</div>
+          {% endif %}
+
+          <form method="post" action="{% url 'visit_validation' visitor.pk %}" autocomplete="off" novalidate>
+            {% csrf_token %}
+            {% if form.non_field_errors %}
+              <div class="alert alert-danger">{{ form.non_field_errors }}</div>
+            {% endif %}
+
+            <h4>Badge</h4>
+            <div class="mb-3 row">
+              <div class="col-4">
+                <label class="mb-1 p-1" for="{{ form.BadgeNumber.id_for_label }}">Numéro de badge (*)</label>
+              </div>
+              <div class="col">
+                {{ form.BadgeNumber }}
+                {% for error in form.BadgeNumber.errors %}
+                  <div class="fg-danger small">{{ error }}</div>
+                {% endfor %}
+              </div>
+            </div>
+            <hr />
+            <div class="row">
+              <div class="col-4">
+                {% if visitor.StartDate %}
+                  <a class="btn btn-outline theme-primary" href="{% url 'visit_detail' visitor.pk %}">Voir les détails</a>
+                {% else %}
+                  <a class="btn btn-outline theme-primary" href="{% url 'visited_person' visitor.pk %}">Precedent</a>
+                {% endif %}
+              </div>
+              <div class="col">
+                <button type="button" class="btn-outline theme-success float-end" data-bs-toggle="dialog" data-bs-target="#exampleDialog">Valider la visite</button>
+                <dialog class="dialog" id="exampleDialog">
+                  <div class="dialog-header">
+                    <h1 class="dialog-title">validation</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="dialog" aria-label="Close"></button>
+                  </div>
+                  <div class="dialog-body">
+                    <p>Vous confirmez la validation de cette visite ?</p>
+                  </div>
+                  <div class="dialog-footer">
+                    <button type="button" class="btn-solid theme-secondary" data-bs-dismiss="dialog">Non</button>
+                    <button type="submit" class="btn btn-solid theme-success">Oui</button>
+                  </div>
+                </dialog>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+{% block steps %}
+  {% include 'visit_steps.html' with step=5 %}
+{% endblock %}

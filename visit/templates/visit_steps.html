@@ -1,6 +1,6 @@
 <div class="col-4 p-2">
-  <div class="container bg-white p-4 rounded shadow-sm" style="max-width: 500px;">
-    <h4 class="mb-4 text-center">Progression de l'identification</h4>
+  <div class="container bg-white p-4 rounded shadow-sm" style="max-width: 500px; margin-top: 10px;">
+    <h4 class="mb-4 text-center">Progréssion de l'identification</h4><hr />
     <div class="stepper-vertical mt-4">
       <!-- Étape 1 : Complétée (Bleu) -->
       <div class="step-item">
@@ -8,9 +8,20 @@
           class="step-bubble {% if step >= 1 %}
             
             
+            
+            
+            
+            
+            
+            
+            
                 
-                
-                 completed
+                 completed 
+
+
+
+
+
 
 
 
@@ -18,9 +29,24 @@
           {% else %}
             
             
-                
-                
-                 pending
+            
+            
+            
+            
+            
+            
+            
+             pending 
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -28,19 +54,31 @@
           {% endif %} ">1</div>
         <div class="step-content">
           <h6 class="mb-0 fw-bold text-dark">Présentation de pièce d'identité</h6>
-          <small class="text-muted">Pièces en cours de validité</small>
+          <small class="text-muted">Recherche par pièce d'identité</small>
         </div>
       </div>
 
       <!-- Étape 2 : Complétée (Bleu) -->
       <div class="step-item">
         <div id="step2"
-          class="step-bubble  {% if step >= 2 %}
+          class="step-bubble {% if step >= 2 %}
             
             
-                
-                
-                 completed
+            
+            
+            
+            
+            
+            
+            
+            
+            completed
+
+
+
+
+
+
 
 
 
@@ -48,17 +86,29 @@
           {% else %}
             
             
-                
-                
-                 pending
+            
+            
+            
+            
+            
+            
+            
+            
+             pending
+
+
+
+
+
+
 
 
 
 
           {% endif %}">2</div>
         <div class="step-content">
-          <h6 class="mb-0 fw-bold text-dark">Enregistrement des informations personnelles</h6>
-          <small class="text-muted">Information comforme à la pièce d'identité</small>
+          <h6 class="mb-0 fw-bold text-dark">Identification de la personne</h6>
+          <small class="text-muted">Information personnelles comformes à la pièce d'identité</small>
         </div>
       </div>
 
@@ -68,9 +118,20 @@
           class="step-bubble   {% if step >= 3 %}
             
             
-                
-                
-                 completed
+            
+            
+            
+            
+            
+            
+            
+                  
+                 completed 
+
+
+
+
+
 
 
 
@@ -78,17 +139,99 @@
           {% else %}
             
             
-                
-                
-                 pending
+            
+            
+            
+            
+                 pending 
 
 
 
 
           {% endif %}">3</div>
         <div class="step-content">
-          <h6 class="mb-0 fw-bold text-primary">Enregistrement de la visite</h6>
-          <small class="text-muted">Objet de visite &amp; Octoire du Badge</small>
+          <h6 class="mb-0 fw-bold text-primary">Qualité du visiteur &amp; Motif de la visite</h6>
+          <small class="text-muted">Qualité &amp; motif</small>
+        </div>
+      </div>
+      <div class="step-item">
+        <div id="step4"
+          class="step-bubble   {% if step >= 4 %}
+            
+            
+            
+            
+                 completed 
+
+
+
+
+
+
+
+          {% else %}
+            
+            
+             
+             
+                 pending 
+
+
+
+
+
+
+
+
+
+          {% endif %}">4</div>
+        <div class="step-content">
+          <h6 class="mb-0 fw-bold text-primary">Liste des personnes visitées</h6>
+          <small class="text-muted">Lister les personnes visitées</small>
+        </div>
+      </div>
+      <div class="step-item">
+        <div id="step5"
+          class="step-bubble   {% if step >= 5 %}
+            
+            
+            
+            
+            
+            
+             
+                 completed 
+
+
+
+
+
+
+
+          {% else %}
+            
+            
+            
+            
+            
+            
+            
+            
+             
+                 pending 
+
+
+
+
+
+
+
+
+
+          {% endif %}">5</div>
+        <div class="step-content">
+          <h6 class="mb-0 fw-bold text-primary">Validation</h6>
+          <small class="text-muted">Octroi du Badge d'accès</small>
         </div>
       </div>
     </div>

@@ -4,6 +4,7 @@ from .person import Person
 from .badge_category import BadgeCategory
 from .badge import Badge
 from .visitor import Visitor
+from .visited_person import VisitedPerson
 
 __all__ = [
     "TypePiece",
@@ -12,4 +13,5 @@ __all__ = [
     "BadgeCategory",
     "Badge",
     "Visitor",
+    "VisitedPerson"
 ]

@@ -1,7 +1,7 @@
 {% extends 'base_template.html' %}
 {% load static %}
 {% block content %}
-  <form method="get" action="{% url 'visit_home' %}" class="mb-3">
+  <form method="get" action="{% url 'visit_home' %}" class="mb-3 mt-2">
     <div class="row">
       <div class="col-2">
         <a class="theme-primary btn-solid btn-styled w-100" href="{% url 'visit_find_person' %}">Nouvelle visite</a>
@@ -12,8 +12,7 @@
       <div class="col-3">
     <select name="state" class="form-control">
       <option value="open" {% if state == 'open' %}selected {% endif %}>En cours</option>
-      <option value="ended" {% if state == 'ended' %}selected{% endif %}>Terminées</option>
-      <option value="all" {% if state == 'all' %}selected{% endif %}>Toutes</option>
+       <option value="all" {% if state == 'abadonned' %}selected{% endif %}>Abanndonnées</option>
     </select>
   </div>
       <div class="col-auto">
@@ -27,31 +26,44 @@
 
   <div class="card mt-5">
     <div class="card-body">
+      {% include '_messages.html' %}
       <h5 class="card-title">Visites</h5>
       <hr />
 
-      <div class="table-responsive">
+      <div class="table-responsive table-sm">
         <table class="table table-striped align-middle">
           <thead>
             <tr>
               <th>Badge</th>
               <th>Visiteur</th>
+              <th>Pièce d'identité</th>
               <th>Motif</th>
               <th>Personne visitée</th>
-              <th>Début</th>
-              <th>Fin</th>
+              <th>Date Heure de validation</th> 
               <th></th>
             </tr>
           </thead>
           <tbody>
             {% for visit in visits %}
               <tr>
-                <td>{{ visit.Badge.BadgeNumber }}</td>
-                <td>{{ visit.Purpose }}</td>
-                <td>{{ visit.Person }}</td>
-                <td>{{ visit.VisitedPerson }}</td>
-                <td>{{ visit.StartDate|date:'d/m/Y H:i' }}</td>
-                <td>{{ visit.EndDate|date:'d/m/Y H:i'|default:'—' }}</td>
+                <td><span class="badge theme-primary fg-white">{{ visit.Badge.BadgeNumber }}</span></td>
+               <td>{{ visit.Person }}</td>
+                <td>{{ visit.Person.TypePiece }}({{ visit.Person.NumPiece }})</td> 
+                <td>{{ visit.Purpose }}</td> 
+                <td>
+                  <ul>
+                   {% for item in visit.visited_persons.all %}
+                      <li>
+                        {{ item.PersonFullName |default_if_none:'' }}
+                        {% if item.PersonRole %}({{ item.PersonRole }}){% endif %}<br />
+                       <i class="text-xs fs-md"> {{ item.Department }}</span>
+                      </li>
+                    {% empty %}
+                      <li class="text-muted">Aucune personne visitée.</li>
+                    {% endfor %}
+                  </ul>
+                </td>
+                <td>{{ visit.StartDate|date:'d/m/Y H:i' |default:'—'}}</td> 
                 <td>
                   <a class="btn btn-outline theme-primary btn-sm" href="{% url 'visit_detail' visit.pk %}">Détails</a>
                   {% if not visit.is_ended and visit.StartDate <= now %}

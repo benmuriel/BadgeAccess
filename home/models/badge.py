@@ -14,9 +14,6 @@ class Badge(models.Model):
         db_column="CategoryId",
         verbose_name="Catégorie de badge",
     )
-    Person = models.ForeignKey(
-        Person, on_delete=models.CASCADE, db_column="PersonId", verbose_name="Personne"
-    )
     CurrentVisitor = models.ForeignKey(
         "Visitor",
         on_delete=models.SET_NULL,
@@ -39,3 +36,4 @@ class Badge(models.Model):
         db_table = "Badges"
         verbose_name = "Badge"
         verbose_name_plural = "Badges"
+        managed = False

@@ -10,24 +10,65 @@
             <span class="badge float-end
               {% if status == 'En cours' %}
                 
-                 
                 
-                theme-success 
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                 
+                  theme-success   
+
+
+
+
+
+
+
+
+
+
+
 
 
 
               {% elif status == 'Planifiée' %}
                 
-                 
                 
-                theme-info 
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                   theme-info 
+
+
+
 
 
               {% else %}
                 
                 
-                 
+                
+                
+                
                 theme-secondary 
+
+
+
 
 
 
@@ -36,10 +77,11 @@
             </span>
           </h5>
           <hr />
-
-          <h4>Visiteur</h4>
+          {% include '_messages.html' %}
           <dl class="row">
-            <dt class="col-4">Nom complet</dt>
+            <dt class="col-4">
+              <h4>Visiteur</h4>
+            </dt>
             <dd class="col-8">{{ person }}</dd>
             <dt class="col-4">Genre</dt>
             <dd class="col-8">{{ person.get_Gender_display }}</dd>
@@ -52,23 +94,23 @@
             <dt class="col-4">Qualité</dt>
             <dd class="col-8">{{ person.Role }}</dd>
           </dl>
-
-          <h4>Badge</h4>
+          <hr />
           <dl class="row">
-            <dt class="col-4">Numéro de badge</dt>
-            <dd class="col-8">{{ visit.Badge.BadgeNumber }}</dd>
+            <dt class="col-4">
+              <h4>Badge</h4>
+            </dt>
+            <dd class="col-8"><span class="badge theme-info fg-white">{{ visit.Badge.BadgeNumber }}</span></dd>
             <dt class="col-4">Catégorie</dt>
             <dd class="col-8">{{ visit.Badge.BadgeCategory }}</dd>
           </dl>
-
-          <h4>Visite</h4>
+          <hr />
           <dl class="row">
-            <dt class="col-4">Objet de la visite</dt>
+            <dt class="col-4">
+              <h4>Visite</h4>
+            </dt>
             <dd class="col-8">{{ visit.Purpose }}</dd>
-            <dt class="col-4">Personne visitée</dt>
-            <dd class="col-8">{{ visit.VisitedPerson }}</dd>
-            <dt class="col-4">Fonction de la personne visitée</dt>
-            <dd class="col-8">{{ visit.VisitedPersonRole }}</dd>
+            <dt class="col-4">Qualité du visiteur</dt>
+            <dd class="col-8">{{ visit.VisitorQuality|default_if_none:'—' }}</dd>
             <dt class="col-4">Date de début</dt>
             <dd class="col-8">{{ visit.StartDate|date:'d/m/Y H:i' }}</dd>
             <dt class="col-4">Date de fin</dt>
@@ -76,8 +118,25 @@
             <dt class="col-4">Enregistrée le</dt>
             <dd class="col-8">{{ visit.CreatedAtDate|date:'d/m/Y H:i' }}</dd>
           </dl>
-
-          <a class="btn" href="{% url 'visit_home' %}">Retour</a>
+          <hr />
+          <dl class="row">
+            <dt class="col-4">
+              <h4>Personnes visitées</h4>
+            </dt>
+            <dd class="col-8">
+              {% for vp in visit.visited_persons.all %}
+                <div>{{ vp.PersonFullName|default_if_none:'' }} {{ vp.PersonRole }} {{ vp.Department }}</div>
+              {% empty %}
+                <p class="text-muted">Aucune personne visitée.</p>
+              {% endfor %}
+            </dd>
+          </dl>
+          {% if user.is_authenticated %}
+            <div class="d-inline">
+              <a class="btn btn-solid theme-primary float-end" href="{% url 'visit_find_person' %}">Nouvelle visite</a>
+              <a class="btn btn-outline theme-primary" href="{% url 'visit_home' %}">Retour à l'accueil</a>
+            </div>
+          {% endif %}
         </div>
       </div>
     </div>

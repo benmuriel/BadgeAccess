@@ -1,0 +1,42 @@
+{% extends 'base_template.html' %}
+
+{% block content %}
+  <div class="row justify-content-center">
+    <div class="col-4">
+      <div class="card">
+        <div class="card-body">
+          <h4 class="card-title">Connexion</h4>
+          {% if form.errors %}
+            <p>Login et mot de passe incorrect. Veillez réessayer.</p>
+          {% endif %}
+          {% if next %}
+            {% if user.is_authenticated %}
+              <p>Your account doesn't have access to this page. To proceed, please log in with an account that has access.</p>
+            {% else %}
+              <p>Please log in to see this page.</p>
+            {% endif %}
+          {% endif %}
+
+          <form method="post" action="{% url 'login' %}">
+            {% csrf_token %}
+            <table class="table">
+              <tr>
+                <td>{{ form.username.label_tag }}</td>
+                <td>{{ form.username }}</td>
+              </tr>
+              <tr>
+                <td>{{ form.password.label_tag }}</td>
+                <td>{{ form.password }}</td>
+              </tr>
+            </table>
+            <div class="text-center">
+              <input type="submit" class="btn btn-solid theme-primary" value="Se connecter" />
+              <a href="/" class="btn btn-solid">Annuler</a>
+              <input type="hidden" name="next" value="{{ next }}" />
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

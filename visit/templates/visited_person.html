@@ -1,0 +1,109 @@
+{% extends 'visit_template.html' %}
+{% load static %}
+{% block main_content %}
+  <div class="row justify-content-center">
+    <div class="col-10">
+      <div class="card mt-5">
+        <div class="card-body">
+          <h5 class="card-title">Personnes visitées</h5> <hr />
+          {% include 'visitor_resume.html' with person=person visit=visitor %}
+          {% include '_messages.html' %}
+          <div class="card">
+            <div class="card-body">
+              <h5>Ajouter une personne visitée</h5><hr />
+              <form method="post" action="{% url 'visited_person' visitor.pk %}" autocomplete="off" novalidate>
+                {% csrf_token %}
+                {% if form.non_field_errors %}
+                  <div class="alert alert-danger">{{ form.non_field_errors }}</div>
+                {% endif %}
+
+                <div class="mb-3 row">
+                  <div class="col-4">
+                    <label class="mb-1 p-1" for="{{ form.Department.id_for_label }}">Département visité (*)</label>
+                  </div>
+                  <div class="col">
+                    {{ form.Department }}
+                    {% for error in form.Department.errors %}
+                      <div class="fg-danger small">{{ error }}</div>
+                    {% endfor %}
+                  </div>
+                </div>
+                <div class="mb-3 row">
+                  <div class="col-4">
+                    <label class="mb-1 p-1" for="{{ form.PersonFullName.id_for_label }}">Nom complet (Optionnelle)</label>
+                  </div>
+                  <div class="col">
+                    {{ form.PersonFullName }}
+                    {% for error in form.PersonFullName.errors %}
+                      <div class="fg-danger small">{{ error }}</div>
+                    {% endfor %}
+                  </div>
+                </div>
+                <div class="mb-3 row">
+                  <div class="col-4">
+                    <label class="mb-1 p-1" for="{{ form.PersonRole.id_for_label }}">Fonction (*)</label>
+                  </div>
+                  <div class="col">
+                    {{ form.PersonRole }}
+                    {% if form.PersonRole.help_text %}
+                      <div class="form-text">{{ form.PersonRole.help_text }}</div>
+                    {% endif %}
+                    {% for error in form.PersonRole.errors %}
+                      <div class="fg-danger small">{{ error }}</div>
+                    {% endfor %}
+                  </div>
+                </div>
+                <hr />
+                <div class="row">
+                  <div class="col-4">
+                    <a class="btn btn-outline theme-primary" href="{% url 'visit_registration' person.pk %}">Precedent</a>
+                  </div>
+                  <div class="col">
+                    <button type="submit" class="btn btn-solid theme-primary">Ajouter</button>
+                    {% if visited_persons %}
+                      <a class="btn btn-outline theme-success float-end" href="{% url 'visit_validation' visitor.pk %}">Suivant</a>
+                    {% endif %}
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+          <h4>Personnes visitées enregistrées</h4>
+          {% if visited_persons %}
+            <table class="table table-striped align-middle">
+              <thead>
+                <tr>
+                  <th>Nom complet</th>
+                  <th>Fonction</th>
+                  <th>Département</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for vp in visited_persons %}
+                  <tr>
+                    <td>{{ vp.PersonFullName }}</td>
+                    <td>{{ vp.PersonRole }}</td>
+                    <td>{{ vp.Department }}</td>
+                    <td>
+                      <form method="post" action="{% url 'visited_person' visitor.pk %}" class="d-inline">
+                        {% csrf_token %}
+                        <input type="hidden" name="delete_id" value="{{ vp.pk }}" />
+                        <button type="submit" class="btn btn-outline theme-danger btn-sm">Retirer</button>
+                      </form>
+                    </td>
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          {% else %}
+            <p class="text-muted text-center fg-danger">Aucune personne visitée pour le moment.</p>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+{% block steps %}
+  {% include 'visit_steps.html' with step=4 %}
+{% endblock %}

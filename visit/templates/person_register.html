@@ -6,51 +6,9 @@
       <div class="card mt-5">
         <div class="card-body">
           <h5 class="card-title">Identification de la personne</h5> <hr />
-
+          {% include '_messages.html' %}
           {% if message %}
-            <div class="alert {% if form.errors %}
-                
-                
-                
-                
-                
-      
-                
-                theme-danger 
-
-
-
-
-
-
-              {% else %}
-                {% if person %}
-                  
-                  
-                  
-                  
-                  
-                theme-success 
-
-
-
-
-
-
-                {% else %}
-                  
-                  
-                  
-                  
-                  
-                  theme-info 
-
-
-
-
-
-                {% endif %}
-              {% endif %}">{{ message }}</div>
+            <div class="alert theme-{{ message_class|default:'info' }}">{{ message }}</div>
           {% endif %}
 
           <form method="post" action="{% url 'visit_save_person' %}" novalidate>
@@ -58,13 +16,35 @@
             <input type="hidden" name="id" value="{{ person.pk|default:'' }}" />
 
             {% if form.non_field_errors %}
-              <div class="alert alert-danger">{{ form.non_field_errors }}</div>
+              <div class="alert theme-danger">{{ form.non_field_errors }}</div>
             {% endif %}
 
             <h4>Références</h4>
             <div class="mb-3 row">
               <div class="col-4">
-                <label class="mb-1 p-1" for="{{ form.PhoneNumber.id_for_label }}">Numero de téléphone</label>
+                <label class="mb-1 p-1" for="{{ form.NumPiece.id_for_label }}">Numéro de la piece d'identité(*)</label>
+              </div>
+              <div class="col">
+                {{ form.NumPiece }}
+                {% for error in form.NumPiece.errors %}
+                  <div class="fg-danger small">{{ error }}</div>
+                {% endfor %}
+              </div>
+            </div>
+            <div class="mb-3 row">
+              <div class="col-4">
+                <label class="mb-1 p-1" for="{{ form.TypePiece.id_for_label }}">Type de piece d'identité(*)</label>
+              </div>
+              <div class="col">
+                {{ form.TypePiece }}
+                {% for error in form.TypePiece.errors %}
+                  <div class="fg-danger small">{{ error }}</div>
+                {% endfor %}
+              </div>
+            </div>
+            <div class="mb-3 row">
+              <div class="col-4">
+                <label class="mb-1 p-1" for="{{ form.PhoneNumber.id_for_label }}">Numero de téléphone (Optionnelle)</label>
               </div>
               <div class="col">
                 {{ form.PhoneNumber }}
@@ -72,51 +52,20 @@
                   <div class="form-text">{{ form.PhoneNumber.help_text }}</div>
                 {% endif %}
                 {% for error in form.PhoneNumber.errors %}
-                  <div class="fg-dangersmall">{{ error }}</div>
+                  <div class="fg-danger small">{{ error }}</div>
                 {% endfor %}
               </div>
             </div>
-            <div class="mb-3 row">
-              <div class="col-4">
-                <label class="mb-1 p-1" for="{{ form.TypePiece.id_for_label }}">Type de piece d'identité</label>
-              </div>
-              <div class="col">
-                {{ form.TypePiece }}
-                {% if form.TypePiece.help_text %}
-                  <div class="form-text">{{ form.TypePiece.help_text }}</div>
-                {% endif %}
-                {% for error in form.TypePiece.errors %}
-                  <div class="fg-dangersmall">{{ error }}</div>
-                {% endfor %}
-              </div>
-            </div>
-            <div class="mb-3 row">
-              <div class="col-4">
-                <label class="mb-1 p-1" for="{{ form.NumPiece.id_for_label }}">Numéro de la piece d'identité</label>
-              </div>
-              <div class="col">
-                {{ form.NumPiece }}
-                {% if form.NumPiece.help_text %}
-                  <div class="form-text">{{ form.NumPiece.help_text }}</div>
-                {% endif %}
-                {% for error in form.NumPiece.errors %}
-                  <div class="fg-dangersmall">{{ error }}</div>
-                {% endfor %}
-              </div>
-            </div>
-
+            <hr />
             <h4>Identité</h4>
             <div class="mb-3 row">
               <div class="col-4">
-                <label class="mb-1 p-1" for="{{ form.FirstName.id_for_label }}">Nom</label>
+                <label class="mb-1 p-1" for="{{ form.FirstName.id_for_label }}">Nom(*)</label>
               </div>
               <div class="col">
                 {{ form.FirstName }}
-                {% if form.FirstName.help_text %}
-                  <div class="form-text">{{ form.FirstName.help_text }}</div>
-                {% endif %}
                 {% for error in form.FirstName.errors %}
-                  <div class="fg-dangersmall">{{ error }}</div>
+                  <div class="fg-danger small">{{ error }}</div>
                 {% endfor %}
               </div>
             </div>
@@ -126,11 +75,8 @@
               </div>
               <div class="col">
                 {{ form.LastName }}
-                {% if form.LastName.help_text %}
-                  <div class="form-text">{{ form.LastName.help_text }}</div>
-                {% endif %}
                 {% for error in form.LastName.errors %}
-                  <div class="fg-dangersmall">{{ error }}</div>
+                  <div class="fg-danger small">{{ error }}</div>
                 {% endfor %}
               </div>
             </div>
@@ -140,17 +86,14 @@
               </div>
               <div class="col">
                 {{ form.ForeName }}
-                {% if form.ForeName.help_text %}
-                  <div class="form-text">{{ form.ForeName.help_text }}</div>
-                {% endif %}
                 {% for error in form.ForeName.errors %}
-                  <div class="fg-dangersmall">{{ error }}</div>
+                  <div class="fg-danger small">{{ error }}</div>
                 {% endfor %}
               </div>
             </div>
             <div class="mb-3 row">
               <div class="col-4">
-                <label class="mb-1 p-1" for="{{ form.Gender.id_for_label }}">Genre</label>
+                <label class="mb-1 p-1" for="{{ form.Gender.id_for_label }}">Genre(*)</label>
               </div>
               <div class="col">
                 {{ form.Gender }}
@@ -162,13 +105,11 @@
                 {% endfor %}
               </div>
             </div>
-
-            <h4>Origine</h4>
-            <div class="mb-3 row">
-              <div class="col-4">
-                <label class="mb-1 p-1" for="{{ form.Provenance.id_for_label }}">Provenance</label>
-              </div>
+            <hr />
+            {% comment %} <h4>Origine</h4>
+            <div class="row">
               <div class="col">
+                <label class="mb-1 p-1" for="{{ form.Provenance.id_for_label }}">Provenance(*)</label>
                 {{ form.Provenance }}
                 {% if form.Provenance.help_text %}
                   <div class="form-text">{{ form.Provenance.help_text }}</div>
@@ -177,12 +118,8 @@
                   <div class="fg-danger small">{{ error }}</div>
                 {% endfor %}
               </div>
-            </div>
-            <div class="mb-3 row">
-              <div class="col-4">
-                <label class="mb-1 p-1" for="{{ form.Role.id_for_label }}">Qualité</label>
-              </div>
               <div class="col">
+                <label class="mb-1 p-1" for="{{ form.Role.id_for_label }}">Qualité(*)</label>
                 {{ form.Role }}
                 {% if form.Role.help_text %}
                   <div class="form-text">{{ form.Role.help_text }}</div>
@@ -191,13 +128,15 @@
                   <div class="fg-danger small">{{ error }}</div>
                 {% endfor %}
               </div>
-            </div>
+            </div> {% endcomment %}
 
-            <div class="col offset-4">
-              <button type="submit" class="btn btn-solid theme-primary">Enregistrer</button>
+            <div class="mt-1">
               {% if person %}
-                <a class="btn btn-solid float-end theme-success" href="{% url 'visit_registration' person.pk %}">Suivant</a>
+                <a class="btn btn-outline theme-primary" href="{% url 'visit_find_person' %}?numpiece={{ person.NumPiece|urlencode:'' }}">Precedent</a>
+              {% else %}
+                <a class="btn btn-outline theme-primary" href="{% url 'visit_find_person' %}?numpiece={{ person.NumPiece|urlencode:'' }}">Precedent</a>
               {% endif %}
+              <button type="submit" class="btn btn-outline theme-success float-end">Suivant</button>
             </div>
           </form>
         </div>

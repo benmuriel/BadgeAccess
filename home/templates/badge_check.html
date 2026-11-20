@@ -19,23 +19,19 @@
 
           {% if searched %}
             {% if badge is None %}
-              <div class="alert alert-danger">Aucun badge ne porte le numéro « {{ number }} ».</div>
+              <div class="alert theme-danger">Aucun badge ne porte le numéro « {{ number }} ».</div>
             {% else %}
               <h4>
                 Badge {{ badge.BadgeNumber }}
                 {% if in_use %}
-                  <span class="badge theme-warning float-end">Utilisé</span>
+                  <span class="badge theme-success float-end">En cours d'utlisation</span>
                 {% else %}
-                  <span class="badge theme-success float-end">Disponible</span>
+                  <span class="badge theme-danger float-end">Non utilisé</span>
                 {% endif %}
               </h4>
               <dl class="row">
                 <dt class="col-4">Catégorie</dt>
                 <dd class="col-8">{{ badge.BadgeCategory }} ({{ badge.BadgeCategory.Type }})</dd>
-                {% if badge.person %}
-                  <dt class="col-4">Titulaire du badge</dt>
-                  <dd class="col-8">{{ badge.Person }}</dd>
-                {% endif %}
               </dl>
 
               <h4>
@@ -46,15 +42,18 @@
                 {% endif %}
               </h4>
               {% if visitor is None %}
-                <p class="text-muted">Ce badge n'a encore jamais été utilisé pour une visite.</p>
+                <p class="text-muted fg-danger">Ce badge n'a encore jamais été utilisé pour une visite.</p>
               {% else %}
                 <dl class="row">
-                  <dt class="col-4">Visiteur</dt>
-                  <dd class="col-8">{{ visitor.Person }}</dd>
+                  <dd class="col-12 m-1 p-1 bg-secondary border rounded">{{ visitor.Person }}</dd>
                   <dt class="col-4">Téléphone</dt>
                   <dd class="col-8">{{ visitor.Person.PhoneNumber }}</dd>
                   <dt class="col-4">Personne visitée</dt>
-                  <dd class="col-8">{{ visitor.VisitedPerson }}</dd>
+                  <dd class="col-8">
+                    {% for vp in visitor.visited_persons.all %}
+                      {{ vp.PersonFullName }}{% if not forloop.last %}, {% endif %}
+                    {% endfor %}
+                  </dd>
                   <dt class="col-4">Début</dt>
                   <dd class="col-8">{{ visitor.StartDate|date:'d/m/Y H:i' }}</dd>
                   <dt class="col-4">Fin</dt>
@@ -65,10 +64,11 @@
               {% endif %}
             {% endif %}
           {% endif %}
-
-          <div class="mt-4">
-            <a class="btn" href="{% url 'index' %}">Retour</a>
-          </div>
+          {% if user.is_authenticated %}
+            <div class="mt-4">
+              <a class="btn btn-outline theme-secondary" href="{% url 'index' %}">Retour</a>
+            </div>
+          {% endif %}
         </div>
       </div>
     </div>
