@@ -20,11 +20,11 @@ CSRF_TRUSTED_ORIGINS = [
     "http://badgeaccess.haut-katanga.gouv.cd/",
 ]
 SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
-USE_X_FORWARDED_HOST = True   # only if the proxy sets X-Forwarded-Host
-
+# USE_X_FORWARDED_HOST = True   # only if the proxy sets X-Forwarded-Host
 
 CSRF_COOKIE_SECURE = True       # only if the site is served over HTTPS
 SESSION_COOKIE_SECURE = True
+
 
 ALLOWED_HOSTS = ["devdtic-001-site6.etempurl.com",
                  "badgeaccess.haut-katanga.gouv.cd", "127.0.0.1"]

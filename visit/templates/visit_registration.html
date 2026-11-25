@@ -16,6 +16,8 @@
             {% if message %}
               <div class="alert {% if form.errors %}
                   
+                  
+                  
                    
                   
                     theme-danger 
@@ -24,7 +26,11 @@
 
 
 
+
+
                 {% else %}
+                  
+                  
                   
                   
                   
@@ -52,6 +58,8 @@
 
 
 
+
+
                 {% endif %}">{{ message }}</div>
             {% endif %}
 
@@ -61,7 +69,7 @@
             <h4>Visite</h4>
             <div class="mb-3 row">
               <div class="col-4">
-                <label class="mb-1 p-1" for="{{ form.Purpose.id_for_label }}">Objet de la visite</label>
+                <label class="mb-1 p-1" for="{{ form.Purpose.id_for_label }}">Objet de la visite (*)</label>
               </div>
               <div class="col">
                 {{ form.Purpose }}
@@ -75,7 +83,7 @@
             </div>
             <div class="mb-3 row">
               <div class="col-4">
-                <label class="mb-1 p-1" for="{{ form.VisitorQuality.id_for_label }}">Qualité du visiteur</label>
+                <label class="mb-1 p-1" for="{{ form.VisitorQuality.id_for_label }}">Qualité du visiteur (Optionnelle)</label>
               </div>
               <div class="col">
                 {{ form.VisitorQuality }}

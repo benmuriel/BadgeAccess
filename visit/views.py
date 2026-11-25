@@ -1,4 +1,5 @@
 from home.models.visited_person import VisitedPerson
+from visit.persmissions import allowed_departments
 from .forms import PersonForm
 from home.models import Person
 from django.urls import reverse
@@ -208,19 +209,19 @@ def save_person(request):
         if typiece.isdigit():
             initial["TypePiece"] = typiece
         form = PersonForm(initial=initial)
-        message = "Nouvel enregistrement : complétez les informations."
+        # message = "Nouvel enregistrement : complétez les informations."
     else:
         form = PersonForm(instance=personne)
-        message = "Vous pouvez vérifier ou modifier les informations."
+        # message = "Vous pouvez vérifier ou modifier les informations."
 
     return render(
         request,
         "person_register.html",
         {
-            "message": message,
             "message_class": "info",
             "form": form,
             "person": personne,
+            "numpiece": numpiece,
         },
     )
 
@@ -249,6 +250,7 @@ def _open_visit(person, visit_id=""):
 def visit_registration(request, person_id):
     person = get_object_or_404(Person, pk=person_id)
     message = ""
+    numpiece = None
     message_class = "danger"
 
     if request.method == "POST":
@@ -344,6 +346,8 @@ def visited_person(request, visitor_id):
     visitor = get_object_or_404(
         Visitor.objects.select_related("Person", "Badge"), pk=visitor_id
     )
+    departments = allowed_departments(request.user)
+    can_add = departments.exists()
 
     if request.method == "POST":
         # Retrait d'une personne visitée
@@ -353,9 +357,14 @@ def visited_person(request, visitor_id):
                 pk=delete_id, Visitor=visitor).delete()
             messages.success(request, "La personne visitée a été retirée.")
             return redirect("visited_person", visitor_id=visitor.pk)
+        if not can_add:
+            messages.error(
+                request, "Aucun site ne vous est associé : contactez l'administrateur."
+            )
+            return redirect("visited_person", visitor_id=visitor.pk)
 
-        # Ajout d'une personne visitée
-        form = VisitedPersonForm(request.POST)
+        form = VisitedPersonForm(
+            request.POST, visitor=visitor, departments=departments)
         if form.is_valid():
             visited = form.save(commit=False)
             visited.Visitor = visitor  # le visiteur vient de l'URL
@@ -373,6 +382,7 @@ def visited_person(request, visitor_id):
             "visitor": visitor,
             "person": visitor.Person,
             "visited_persons": visitor.visited_persons.select_related("Department"),
+            "can_add": can_add,
         },
     )
 

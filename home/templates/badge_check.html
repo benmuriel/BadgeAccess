@@ -2,7 +2,7 @@
 {% load static %}
 {% block content %}
   <div class="row justify-content-center">
-    <div class="col-10">
+    <div class="col-md-10">
       <div class="card mt-5">
         <div class="card-body">
           <h5 class="card-title">Vérification d'un badge</h5>
@@ -30,10 +30,10 @@
                 {% endif %}
               </h4>
               <dl class="row">
-                <dt class="col-4">Catégorie</dt>
-                <dd class="col-8">{{ badge.BadgeCategory }} ({{ badge.BadgeCategory.Type }})</dd>
+                <dt class="col-5">Catégorie</dt>
+                <dd class="col-7">{{ badge.BadgeCategory }}</dd>
               </dl>
-
+              <hr />
               <h4>
                 {% if in_use %}
                   Visiteur actuel
@@ -46,20 +46,20 @@
               {% else %}
                 <dl class="row">
                   <dd class="col-12 m-1 p-1 bg-secondary border rounded">{{ visitor.Person }}</dd>
-                  <dt class="col-4">Téléphone</dt>
-                  <dd class="col-8">{{ visitor.Person.PhoneNumber }}</dd>
-                  <dt class="col-4">Personne visitée</dt>
-                  <dd class="col-8">
+                  <dt class="col-5">Téléphone</dt>
+                  <dd class="col-7">{{ visitor.Person.PhoneNumber }}</dd>
+                  <dt class="col-5">Personne visitée</dt>
+                  <dd class="col-7">
                     {% for vp in visitor.visited_persons.all %}
-                      {{ vp.PersonFullName }}{% if not forloop.last %}, {% endif %}
+                      {{ vp.PersonFullName|default_if_none:'' }} ({{ vp.PersonRole }}, {{ vp.Department }}){% if not forloop.last %}, {% endif %}
                     {% endfor %}
                   </dd>
-                  <dt class="col-4">Début</dt>
-                  <dd class="col-8">{{ visitor.StartDate|date:'d/m/Y H:i' }}</dd>
-                  <dt class="col-4">Fin</dt>
-                  <dd class="col-8">{{ visitor.EndDate|date:'d/m/Y H:i'|default:'—' }}</dd>
-                  <dt class="col-4">État de la visite</dt>
-                  <dd class="col-8">{{ visitor.status }}</dd>
+                  <dt class="col-5">Début</dt>
+                  <dd class="col-7">{{ visitor.StartDate|date:'d/m/Y H:i' }}</dd>
+                  <dt class="col-5">Fin</dt>
+                  <dd class="col-7">{{ visitor.EndDate|date:'d/m/Y H:i'|default:'—' }}</dd>
+                  <dt class="col-5">État de la visite</dt>
+                  <dd class="col-7"><span class="badge theme-primary">{{ visitor.status }}</span></dd>
                 </dl>
               {% endif %}
             {% endif %}

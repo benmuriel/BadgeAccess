@@ -38,8 +38,8 @@
               <th>Visiteur</th>
               <th>Pièce d'identité</th>
               <th>Motif</th>
-              <th>Personne visitée</th>
-              <th>Date Heure de validation</th> 
+              <th>Personnes visitées</th>
+              <th>Date et Heure</th> 
               <th></th>
             </tr>
           </thead>
@@ -48,7 +48,10 @@
               <tr>
                 <td><span class="badge theme-primary fg-white">{{ visit.Badge.BadgeNumber }}</span></td>
                <td>{{ visit.Person }}</td>
-                <td>{{ visit.Person.TypePiece }}({{ visit.Person.NumPiece }})</td> 
+                <td>
+                 <div class="fw-semibold">{{ visit.Person.TypePiece }}</div> 
+                  <i class="small">{{ visit.Person.NumPiece }} </div>
+                </td> 
                 <td>{{ visit.Purpose }}</td> 
                 <td>
                   <ul>

@@ -1,19 +1,35 @@
 {% extends 'base_template.html' %}
 {% load static %}
 {% block content %}
-  <div class="text-center mt-5">
-    <h1 class="m-2">Bienvenu dans Badge Access !</h1>
-    <img src="{% static 'images/logo.png' %}" alt="Logo Badge Access" class="img-fluid m-2" style="max-width: 200px;" />
-    <p class="m-1">
-      La plate-forme officielle du Gouvernement Provinciale du Haut-Katanga <br /> pour la gestion des visites et des évènements.
-    </p>
-    <div></div>
-    {% if user.is_authenticated %}
-      <a href="{% url 'visit_find_person' %}" class="btn btn-solid theme-primary m-2">Enregistrer une visite</a>
-      <a href="{% url 'badge_check' %}" class="btn btn-solid theme-secondary m-2">Vérifier un badge</a>
-    {% else %}
-      <a class="m-1 btn btn-solid theme-primary" href="{% url 'login' %}">Se connecter</a>
-    {% endif %}
+  <div class="container">
+    <div class="text-center mt-5">
+      <h1 class="m-2">Bienvenu dans Badge Access !</h1> <hr />
+      <div class="row" style="height: 38rem;">
+        <div class="col-6 p-4" style="padding-top: 6rem;">
+          <img src="{% static 'images/logo.png' %}" alt="Logo Badge Access" class="img-fluid m-2" style="max-width: 200px;" />
+          <p class="m-1 h5 s">
+            Plate-forme officielle <br /> pour la gestion des visites et des évènements.
+          </p>
+        </div>
+        <div class="col-6" style="padding-top: 4rem;">
+          <img src="{% static 'images/logo-app-icon.svg' %}" />
+          <div>
+            {% if user.is_authenticated %}
+              <a href="{% url 'visit_find_person' %}" class="btn btn-solid theme-primary m-2">Enregistrer une visite</a>
+              <a href="{% url 'badge_check' %}" class="btn btn-outline theme-primary border m-2">Vérifier un badge</a>
+            {% else %}
+              <a class="m-1 btn btn-solid theme-primary" href="{% url 'login' %}">Se connecter</a>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+      <div class="bg-white p-2">
+        <p class="fw-bold">Gouvernement Provincial du Haut-Katanga</p>
+        <p>Direction de la Fonction Publique Provinciale</p>
+        <p class="h6">Division des Technologies de l'Information et de la Communication</p>
+      </div>
+      <p>Haut-Katanga@2026</p>
+    </div>
   </div>
 {% endblock %}
 {% block scripts %}

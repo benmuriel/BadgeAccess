@@ -20,15 +20,17 @@ class VisitedPerson(models.Model):
         verbose_name="Département visité",
     )
     PersonFullName = models.CharField(
-        max_length=255, null=True,
-        blank=True, verbose_name="Nom complet de la personne visitée"
+        max_length=255,
+        blank=True,
+        verbose_name="Nom complet de la personne visitée"
     )
     PersonRole = models.CharField(
         max_length=255, verbose_name="Fonction de la personne visitée"
     )
 
     def __str__(self):
-        return self.PersonFullName
+        # Ne doit jamais retourner None : l'admin plante sinon
+        return self.PersonFullName or self.PersonRole or "Personne non précisée"
 
     class Meta:
         db_table = "VisitedPersons"

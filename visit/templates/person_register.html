@@ -131,9 +131,7 @@
             </div> {% endcomment %}
 
             <div class="mt-1">
-              {% if person %}
-                <a class="btn btn-outline theme-primary" href="{% url 'visit_find_person' %}?numpiece={{ person.NumPiece|urlencode:'' }}">Precedent</a>
-              {% else %}
+              {% if numpiece %}
                 <a class="btn btn-outline theme-primary" href="{% url 'visit_find_person' %}?numpiece={{ person.NumPiece|urlencode:'' }}">Precedent</a>
               {% endif %}
               <button type="submit" class="btn btn-outline theme-success float-end">Suivant</button>

@@ -48,7 +48,9 @@ class Visitor(models.Model):
     )
 
     def __str__(self):
-        return f"Visite de {self.Person} le {self.CreatedBy:%d/%m/%Y}"
+        start = self.StartDate.strftime(
+            "%d/%m/%Y") if self.StartDate else "non validée"
+        return f"Visite de {self.Person} ({start})"
 
     @property
     def is_ended(self):

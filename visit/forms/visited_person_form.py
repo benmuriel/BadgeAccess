@@ -16,31 +16,44 @@ class VisitedPersonForm(forms.ModelForm):
             "PersonRole": {"required": "La fonction de la personne visitée est obligatoire."},
         }
 
-    def __init__(self, *args, visitor=None, **kwargs):
+    def __init__(self, *args, visitor=None, departments=None, **kwargs):
         super().__init__(*args, **kwargs)
-        # Le visiteur auquel la personne visitée est rattachée
         self.visitor = visitor
 
         for field in self.fields.values():
             field.widget.attrs.setdefault("class", "form-control")
 
-        # Liste déroulante des départements, triée par nom
-        self.fields["Department"].queryset = Department.objects.order_by(
-            "Name")
+        # Seuls les départements autorisés sont proposés (et acceptés à l'envoi)
+        if departments is None:
+            departments = Department.objects.all()
+        self.fields["Department"].queryset = departments.order_by("Name")
         self.fields["Department"].empty_label = "-- Sélectionner --"
 
     def clean(self):
         cleaned = super().clean()
         name = (cleaned.get("PersonFullName") or "").strip()
+        role = (cleaned.get("PersonRole") or "").strip()
         department = cleaned.get("Department")
 
-        # La même personne ne peut pas être ajoutée deux fois à la même visite
-        if self.visitor is not None and name and department:
-            duplicates = VisitedPerson.objects.filter(
-                Visitor=self.visitor,
-                Department=department,
-                PersonFullName__iexact=name,
+        # Il faut au moins le nom ou la fonction
+        if not name and not role:
+            raise forms.ValidationError(
+                "Saisissez le nom ou la fonction de la personne visitée."
             )
+
+        # La même personne ne peut pas être ajoutée deux fois à la même visite
+        if self.visitor is not None and department:
+            duplicates = VisitedPerson.objects.filter(
+                Visitor=self.visitor, Department=department
+            )
+            if name:
+                duplicates = duplicates.filter(PersonFullName__iexact=name)
+            else:
+                # Sans nom : on compare la fonction, parmi les personnes sans nom
+                duplicates = duplicates.filter(
+                    PersonFullName__isnull=True, PersonRole__iexact=role
+                ) | duplicates.filter(PersonFullName="", PersonRole__iexact=role)
+
             if self.instance.pk:
                 duplicates = duplicates.exclude(pk=self.instance.pk)
             if duplicates.exists():
