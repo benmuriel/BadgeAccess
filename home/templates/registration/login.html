@@ -6,16 +6,6 @@
       <div class="card">
         <div class="card-body">
           <h4 class="card-title">Connexion</h4>
-          {% if form.errors %}
-            <p>Login et mot de passe incorrect. Veillez réessayer.</p>
-          {% endif %}
-          {% if next %}
-            {% if user.is_authenticated %}
-              <p>Your account doesn't have access to this page. To proceed, please log in with an account that has access.</p>
-            {% else %}
-              <p>Please log in to see this page.</p>
-            {% endif %}
-          {% endif %}
 
           <form method="post" action="{% url 'login' %}">
             {% csrf_token %}
@@ -29,6 +19,16 @@
                 <td>{{ form.password }}</td>
               </tr>
             </table>
+            {% if form.errors %}
+              <p class="fg-danger">Login et mot de passe incorrect. Veillez réessayer.</p>
+            {% endif %}
+            {% if next %}
+              {% if user.is_authenticated %}
+                <p class="fg-danger">Your account doesn't have access to this page. To proceed, please log in with an account that has access.</p>
+              {% else %}
+                <p class="fg-danger">Please log in to see this page.</p>
+              {% endif %}
+            {% endif %}
             <div class="text-center">
               <input type="submit" class="btn btn-solid theme-primary" value="Se connecter" />
               <a href="/" class="btn btn-solid">Annuler</a>

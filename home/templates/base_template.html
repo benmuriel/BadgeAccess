@@ -32,8 +32,8 @@
                 <div class="nav nav-pills navbar-nav me-auto">
                   <a id="home" class="nav-link" aria-current="page" href="{% url 'index' %}">Accueil</a>
                   <a id="home_visit" class="nav-link" href="{% url 'visit_home' %}">Visites &amp; Audiences</a>
-                  <a id="home_event" class="nav-link disabled" aria-disabled="true">Evenements</a>
-                  <a id="home_report" class="nav-link disabled" aria-disabled="true">Rapports</a>
+                  <a id="home_event" class="nav-link" href="{% url 'event_home' %}">Evenements</a>
+                  <a id="home_report" class="nav-link disabled d-none" aria-disabled="true">Rapports</a>
                 </div>
               {% endif %}
               <div class="nav nav-pills navbar-nav ms-auto">

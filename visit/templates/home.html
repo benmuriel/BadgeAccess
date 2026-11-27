@@ -1,86 +1,99 @@
 {% extends 'base_template.html' %}
 {% load static %}
 {% block content %}
-  <form method="get" action="{% url 'visit_home' %}" class="mb-3 mt-2">
-    <div class="row">
-      <div class="col-2">
-        <a class="theme-primary btn-solid btn-styled w-100" href="{% url 'visit_find_person' %}">Nouvelle visite</a>
-      </div>
-      <div class="col">
-        <input type="text" name="q" class="form-control" placeholder="Rechercher un visiteur" value="{{ q }}" />
-      </div>
-      <div class="col-3">
-    <select name="state" class="form-control">
-      <option value="open" {% if state == 'open' %}selected {% endif %}>En cours</option>
-       <option value="all" {% if state == 'abadonned' %}selected{% endif %}>Abanndonnées</option>
-    </select>
-  </div>
-      <div class="col-auto">
-        <button type="submit" class="btn-solid theme-primary">Rechercher</button>
-        {% if q or state != 'open'  %}
-          <a class="btn" href="{% url 'visit_home' %}">Réinitialiser</a>
-        {% endif %}
-      </div>
-    </div>
-  </form>
+  <div class="row justify-content-center">
+    <div class="col-10">
+      <div class="card mt-5">
+        <div class="card-body">
+          <h5 class="card-title">Visites</h5>
+          <hr />
 
-  <div class="card mt-5">
-    <div class="card-body">
-      {% include '_messages.html' %}
-      <h5 class="card-title">Visites</h5>
-      <hr />
+          {% include '_messages.html' %}
 
-      <div class="table-responsive table-sm">
-        <table class="table table-striped align-middle">
-          <thead>
-            <tr>
-              <th>Badge</th>
-              <th>Visiteur</th>
-              <th>Pièce d'identité</th>
-              <th>Motif</th>
-              <th>Personnes visitées</th>
-              <th>Date et Heure</th> 
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>
-            {% for visit in visits %}
-              <tr>
-                <td><span class="badge theme-primary fg-white">{{ visit.Badge.BadgeNumber }}</span></td>
-               <td>{{ visit.Person }}</td>
-                <td>
-                 <div class="fw-semibold">{{ visit.Person.TypePiece }}</div> 
-                  <i class="small">{{ visit.Person.NumPiece }} </div>
-                </td> 
-                <td>{{ visit.Purpose }}</td> 
-                <td>
-                  <ul>
-                   {% for item in visit.visited_persons.all %}
-                      <li>
-                        {{ item.PersonFullName |default_if_none:'' }}
-                        {% if item.PersonRole %}({{ item.PersonRole }}){% endif %}<br />
-                       <i class="text-xs fs-md"> {{ item.Department }}</span>
-                      </li>
-                    {% empty %}
-                      <li class="text-muted">Aucune personne visitée.</li>
-                    {% endfor %}
-                  </ul>
-                </td>
-                <td>{{ visit.StartDate|date:'d/m/Y H:i' |default:'—'}}</td> 
-                <td>
-                  <a class="btn btn-outline theme-primary btn-sm" href="{% url 'visit_detail' visit.pk %}">Détails</a>
-                  {% if not visit.is_ended and visit.StartDate <= now %}
-                    <a class="btn btn-outline theme-danger btn-sm" href="{% url 'visit_end' visit.pk %}">Terminer</a>
-                  {% endif %}
-                </td>
-              </tr>
-            {% empty %}
-              <tr>
-                <td colspan="7" class="text-center fg-danger">Aucune visite en cours.</td>
-              </tr>
-            {% endfor %}
-          </tbody>
-        </table>
+          <form method="get" action="{% url 'visit_home' %}" class="mb-3 mt-2">
+            <div class="row">
+              <div class="col-2">
+                <a class="btn theme-primary btn-solid btn-styled w-100" href="{% url 'visit_find_person' %}">Nouvelle visite</a>
+              </div>
+              <div class="col">
+                <input type="text" name="q" class="form-control" placeholder="Rechercher un visiteur" value="{{ q }}" />
+              </div>
+              <div class="col-2">
+                <select name="state" class="form-control">
+                  <option value="open" {% if state == 'open' %}selected{% endif %}>En cours</option>
+                  <option value="abandoned" {% if state == 'abandoned' %}selected{% endif %}>Abandonnées</option>
+                </select>
+              </div>
+              <div class="col-auto">
+                <button type="submit" class="btn btn-solid theme-primary">filtrer</button>
+                {% if q or state != 'open' %}
+                  <a class="btn" href="{% url 'visit_home' %}">Réinitialiser</a>
+                {% endif %}
+              </div>
+            </div>
+          </form>
+
+          <div class="table-responsive table-sm">
+            <table class="table table-striped align-middle">
+              <thead>
+                <tr>
+                  <th>Badge</th>
+                  <th>Visiteur</th>
+                  <th>Pièce d'identité</th>
+                  <th>Motif</th>
+                  <th>Personnes visitées</th>
+                  <th>Date et Heure</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for visit in visits %}
+                  <tr>
+                    <td>
+                      {% if visit.Badge %}
+                        <span class="badge theme-primary fg-white">{{ visit.Badge.BadgeNumber }}</span>
+                      {% else %}
+                        —
+                      {% endif %}
+                    </td>
+                    <td>{{ visit.Person }}</td>
+                    <td>
+                      <div class="fw-semibold">{{ visit.Person.TypePiece }}</div>
+                      <div class="small">{{ visit.Person.NumPiece }}</div>
+                    </td>
+                    <td>{{ visit.Purpose }}</td>
+                    <td>
+                      <ul class="list-unstyled mb-0">
+                        {% for item in visit.visited_persons.all %}
+                          <li>
+                            {{ item.PersonFullName|default_if_none:'' }}
+                            {% if item.PersonRole %}({{ item.PersonRole }}){% endif %}<br />
+                            <span class="small text-muted">{{ item.Department }}</span>
+                          </li>
+                        {% empty %}
+                          <li class="text-muted">Aucune personne visitée.</li>
+                        {% endfor %}
+                      </ul>
+                    </td>
+                    <td>{{ visit.StartDate|date:'d/m/Y H:i'|default:'—' }}</td>
+                    <td>
+                      <a class="btn btn-outline theme-primary btn-sm" href="{% url 'visit_detail' visit.pk %}">Détails</a>
+                      {% if visit.StartDate and not visit.is_ended and visit.StartDate <= now %}
+                        <a class="btn btn-outline theme-danger btn-sm" href="{% url 'visit_end' visit.pk %}">Terminer</a>
+                      {% endif %}
+                    </td>
+                  </tr>
+                {% empty %}
+                  <tr>
+                    <td colspan="7" class="text-center fg-danger">
+                      {% if state == 'abandoned' %}Aucune visite abandonnée.{% else %}Aucune visite en cours.{% endif %}
+                    </td>
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
       </div>
     </div>
   </div>

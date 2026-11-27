@@ -1,0 +1,72 @@
+{% extends 'base_template.html' %}
+{% block content %}
+  <div class="row justify-content-center">
+    <div class="col-10">
+      <div class="card mt-5">
+        <div class="card-body">
+          <h5 class="card-title">Événements</h5> <hr /> 
+          <form method="get" action="{% url 'event_home' %}" class="row g-2 mb-3">
+             <div class="col-2">
+        <a class="theme-primary btn-solid btn-styled w-100" href="{% url 'event_registration' %}">Nouvel evenement</a>
+      </div>
+            <div class="col">
+              <input type="text" name="q" class="form-control" placeholder="Nom ou lieu" value="{{ q }}" />
+            </div>
+            <div class="col-3">
+              <select name="state" class="form-control">
+                {% for key, label in states.items %}
+                  <option value="{{ key }}" {% if key == state %}selected{% endif %}>{{ label }}</option>
+                {% endfor %}
+              </select>
+            </div>
+            <div class="col-auto">
+              <button type="submit" class="btn btn-solid theme-primary">Filtrer</button>
+              {% if q or state != 'upcoming' %}
+                <a class="btn" href="{% url 'event_home' %}">Réinitialiser</a>
+              {% endif %}
+            </div>
+          </form>
+
+          <div class="table-responsive">
+            <table class="table table-striped align-middle">
+              <thead>
+                <tr>
+                  <th>Nom</th><th>Lieu</th><th>Début</th><th>Fin</th><th>État</th><th></th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for event in events %}
+                  <tr>
+                    <td>
+                      {{ event.Name }}
+                      {% if event.Description %}<div class="form-text">{{ event.Description|truncatechars:80 }}</div>{% endif %}
+                    </td>
+                    <td>{{ event.Place }}</td>
+                    <td>{{ event.StartDate|date:"d/m/Y H:i" }}</td>
+                    <td>{{ event.EndDate|date:"d/m/Y H:i" }}</td>
+                    <td>
+                      <span class="badge
+                        {% if event.status == 'En cours' %}bg-success
+                        {% elif event.status == 'À venir' %}bg-info
+                        {% else %}bg-secondary{% endif %}">{{ event.status }}</span>
+                    </td>
+                    <td>
+                      <a href="{% url 'event_participants' event.pk %}" class="btn btn-outline theme-primary">Liste des participants</a>
+                    </td>
+                  </tr>
+                {% empty %}
+                  <tr><td colspan="5" class="text-center">Aucun événement.</td></tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+{% block scripts %}
+  <script type="text/javascript">
+    $('#home_event').addClass('active fg-white')
+  </script>
+{% endblock %}

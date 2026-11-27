@@ -7,6 +7,9 @@ from .visitor import Visitor
 from .visited_person import VisitedPerson
 from .site import Site
 from .user_site import UserSite
+from .event import Event
+from .partner import Partner
+from .event_badge_category import EventBadgeCategory
 
 __all__ = [
     "TypePiece",
@@ -17,5 +20,8 @@ __all__ = [
     "Visitor",
     "VisitedPerson"
     "Site",
-    "UserSite"
+    "Event",
+    "UserSite",
+    "Partner",
+    "EventBadgeCategory"
 ]

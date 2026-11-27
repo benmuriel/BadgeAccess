@@ -1,0 +1,236 @@
+{% extends 'base_template.html' %}
+{% load static %}
+{% block content %}
+  <div class="row justify-content-center">
+    <div class="col-11">
+      <div class="card mt-5 mb-3">
+        <div class="card-body">
+          <h5 class="card-title">
+            {{ event.Name }}
+            <span class="badge float-end
+              {% if event.status == 'En cours' %}
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                bg-success
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+              {% elif event.status == 'À venir' %}
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                bg-info
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+              {% else %}
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                bg-secondary
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+              {% endif %}">
+              {{ event.status }}
+            </span>
+          </h5>
+          <hr />
+          <div class="row">
+            <div class="col">
+              <div class="row">
+                <div class="col-md-4">
+                  <strong>Lieu :</strong> {{ event.Place }}
+                </div>
+                <div class="col-md-4">
+                  <strong>Du :</strong> {{ event.StartDate|date:'d/m/Y H:i' }}
+                </div>
+                <div class="col-md-4">
+                  <strong>Au :</strong> {{ event.EndDate|date:'d/m/Y H:i' }}
+                </div>
+              </div>
+            </div>
+            <div class="col">
+              {% if event.Description %}
+                <p class="mt-2 mb-2">{{ event.Description }}</p>
+              {% endif %}
+              <div class="mt-2">
+                <span class="badge theme-primary fg-white">{{ sections|length }} partenaire{{ sections|length|pluralize }}</span>
+                <span class="badge theme-primary fg-white">{{ total_participants }} participant{{ total_participants|pluralize }}</span>
+                <a class="btn btn-sm btn-outline theme-primary float-end" href="{% url 'event_registration' event.pk %}">Modifier l'événement</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {% include '_messages.html' %}
+
+      <div class="row">
+        <div class="col-9">
+          {% for section in sections %}
+            <div class="card mb-3" id="partner-{{ section.partner.pk }}" style="scroll-margin-top: 1rem;">
+              <div class="card-body">
+                <h5 class="card-title d-flex justify-content-between align-items-center">
+                  <span>{{ section.partner.Name }}</span>
+                  <span>
+                    <a class="btn btn-sm btn-outline theme-primary me-2" href="{% url 'participant_registration' section.partner.pk %}">Nouveau participant</a>
+                    <span class="badge bg-secondary">{{ section.participants|length }}</span>
+                  </span>
+                </h5>
+                <hr />
+
+                {% if section.participants %}
+                  <div class="table-responsive table-sm">
+                    <table class="table table-sm table-responsive">
+                      <thead>
+                        <tr>
+                          <th>Nom complet</th>
+                          <th>Rôle</th>
+                          <th>Téléphone</th>
+                          <th>Badge</th>
+                          <th>Catégorie</th>
+                          <th></th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {% for item in section.participants %}
+                          <tr>
+                            <td>{{ item }}</td>
+                            <td>{{ item.Role|default:'—' }}</td>
+                            <td>{{ item.PhoneNumber|default:'—' }}</td>
+                            <td>
+                              {% if item.Badge %}
+                                <span class="badge theme-primary fg-white">{{ item.Badge.BadgeNumber }}</span>
+                              {% else %}
+                                —
+                              {% endif %}
+                            </td>
+                            <td>{{ item.Badge.BadgeCategory.Name|default:'—' }}</td>
+                            <td class="text-nowrap">
+                              <a href="{% url 'participant_edit' item.pk %}" class="btn btn-sm btn-outline theme-primary">Modifier</a>
+                              <form method="post" action="{{ request.path }}" class="d-inline">
+                                {% csrf_token %}
+                                <button type="submit" name="delete_participant" value="{{ item.pk }}" class="btn btn-sm btn-outline theme-danger">Retirer</button>
+                              </form>
+                            </td>
+                          </tr>
+                        {% endfor %}
+                      </tbody>
+                    </table>
+                  </div>
+                {% else %}
+                  <p class="text-muted fg-warning text-center">Aucun participant pour ce partenaire.</p>
+                {% endif %}
+              </div>
+            </div>
+          {% empty %}
+            <div class="card">
+              <div class="card-body">
+                <p class="text-muted mb-2 fg-warning">Cet événement n'a pas encore de partenaire.</p>
+                <a class="btn btn-solid theme-primary" href="{% url 'event_registration' event.pk %}">Ajouter des partenaires</a>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+
+        <div class="col-3">
+          <div class="card position-sticky" style="top: 1rem;">
+            <div class="card-body">
+              <h6 class="card-title">Partenaires</h6>
+              <hr />
+              <ul class="list-unstyled mb-0">
+                {% for section in sections %}
+                  <li class="mb-1">
+                    <a href="#partner-{{ section.partner.pk }}">{{ section.partner.Name }}</a>
+                    <span class="badge bg-secondary float-end">{{ section.participants|length }}</span>
+                  </li>
+                {% empty %}
+                  <li class="text-muted fg-warning">Aucun partenaire.</li>
+                {% endfor %}
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+{% block scripts %}
+  <script type="text/javascript">
+    $('#home_event').addClass('active fg-white')
+  </script>
+{% endblock %}

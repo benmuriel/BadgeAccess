@@ -39,6 +39,8 @@ def home_page(request):
         visits = visits.filter(Q(EndDate__isnull=True) | Q(EndDate__gte=now))
     elif state == "ended":
         visits = visits.filter(EndDate__lt=now)
+    elif state == "abandoned":
+        visits = visits.filter(StartDate__isnull=True)
 
     if query:
         condition = Q(Badge__BadgeNumber__icontains=query)

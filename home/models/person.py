@@ -23,6 +23,7 @@ class Person(models.Model):
     TypePiece = models.ForeignKey(
         TypePiece,
         on_delete=models.PROTECT,
+        null=True,
         db_column="TypePieceId",
         verbose_name="Type de pièce",
     )
@@ -35,6 +36,24 @@ class Person(models.Model):
                             null=True, verbose_name="Rôle")
     Provenance = models.CharField(
         max_length=255, blank=True, null=True, verbose_name="Provenance")
+    Partner = models.ForeignKey(
+        "Partner",
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="participants",
+        db_column="PartnerListId",
+        verbose_name="Partenaire",
+    )
+    Badge = models.ForeignKey(
+        "Badge",
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="assigned_persons",
+        db_column="BadgeId",
+        verbose_name="Badge",
+    )
 
     def __str__(self):
         return f"{self.FirstName} {self.LastName} {self.ForeName}"

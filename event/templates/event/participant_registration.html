@@ -1,0 +1,87 @@
+{% extends 'base_template.html' %}
+{% load static %}
+{% block content %}
+  <div class="row justify-content-center">
+    <div class="col-10">
+      <div class="card mt-5">
+        <div class="card-body">
+          <h5>
+            {% if participant %}
+              Modifier le participant
+            {% else %}
+              Nouveau participant
+            {% endif %}
+          </h5>
+
+          <hr />
+
+          <div class="alert alert-secondary">
+            <div>
+              <strong>Événement :</strong> {{ event.Name }}
+            </div>
+            <div>
+              <strong>Partenaire :</strong> {{ partner.Name }}
+            </div>
+          </div>
+
+          {% include '_messages.html' %}
+
+          <form method="post" action="{% url 'participant_registration' partner.pk %}" autocomplete="off" novalidate>
+            {% csrf_token %}
+
+            {% if form.non_field_errors %}
+              <div class="alert alert-danger">{{ form.non_field_errors }}</div>
+            {% endif %}
+
+            {% for field in form %}
+              <div class="mb-3 row">
+                <div class="col-4">
+                  <label class="mb-1 p-1" for="{{ field.id_for_label }}">{{ field.label }}</label>
+                </div>
+                <div class="col">
+                  {{ field }}
+                  {% if field.help_text %}
+                    <div class="form-text">{{ field.help_text }}</div>
+                  {% endif %}
+                  {% for error in field.errors %}
+                    <div class="fg-danger small">{{ error }}</div>
+                  {% endfor %}
+                </div>
+              </div>
+            {% endfor %}
+            <div class="col offset-4">
+              <div class="mb-3">
+                <label class="form-label">Catégories de badge de l'événement</label>
+                {% if categories %}
+                  <ul class="list-inline mb-0">
+                    {% for c in categories %}
+                      <li class="list-inline-item">
+                        <span class="badge theme-primary fg-white">{{ c.Id }} · {{ c.Name }}</span>
+                      </li>
+                    {% endfor %}
+                  </ul>
+                {% else %}
+                  <p class="text-muted mb-0">Aucune catégorie de badge n'est associée à cet événement.</p>
+                {% endif %}
+              </div>
+              <hr />
+              <button type="submit" class="btn btn-solid theme-primary fg-white">
+                {% if participant %}
+                  Enregistrer les modifications
+                {% else %}
+                  Enregistrer
+                {% endif %}
+              </button>
+              <a class="btn" href="{% url 'event_participants' event.pk %}#partner-{{ partner.pk }}">Annuler</a>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+{% block scripts %}
+  <script type="text/javascript">
+    $('#home_event').addClass('active fg-white')
+  </script>
+{% endblock %}
